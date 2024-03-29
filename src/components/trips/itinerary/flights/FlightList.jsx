@@ -17,7 +17,7 @@ export default function FlightList({ mode }) {
   const { trip } = useContext(ItineraryContext);
   const flights = mode === "depart" ? trip.flightsDepart : trip.flightsReturn;
 
-  const sortedFlightList = flights.sort((a, b) => {
+  const sortedFlightList = flights?.sort((a, b) => {
     const aTimestamp = new Date(a.from.departTime).getTime();
     const bTimestamp = new Date(b.from.departTime).getTime();
 
