@@ -44,6 +44,7 @@
   justify-content: flex-start;
 
   overflow-x: scroll;
+  @include hide-horizonatal-scrollbar;
 }
 
 .add {

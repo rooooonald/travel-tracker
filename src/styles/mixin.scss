@@ -113,3 +113,10 @@
   overflow: hidden;
   text-wrap: nowrap;
 }
+
+@mixin hide-horizonatal-scrollbar {
+  &::-webkit-scrollbar {
+    height: 0px;
+    background: transparent;
+  }
+}
