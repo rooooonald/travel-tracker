@@ -9,6 +9,7 @@ export default function FormSelect({
   onBlur,
   options,
   isFocused,
+  isRequired,
   className,
   errorMsg,
 }) {
@@ -21,6 +22,7 @@ export default function FormSelect({
         }}
       >
         {label}
+        {isRequired && <sup>*</sup>}
       </label>
       <select
         id={id}

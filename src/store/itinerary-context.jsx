@@ -18,16 +18,6 @@ export default function ItineraryContextProvider({ children }) {
   };
 
   const setDayHandler = (change) => {
-    if (change === -1 && currDay === 2) {
-      setCurrDay(1);
-      return;
-    }
-
-    if (change === 1 && currDay === trip?.itinerary.length - 1) {
-      setCurrDay(trip?.itinerary.length);
-      return;
-    }
-
     setCurrDay((prev) => prev + change);
   };
 
@@ -39,9 +29,12 @@ export default function ItineraryContextProvider({ children }) {
     (itinerary) => itinerary.day === currDay
   );
 
+  const finalDay = trip?.itinerary.length;
+
   const context = {
-    currDay,
     trip,
+    currDay,
+    finalDay,
     currDayItinerary,
     setDay: setDayHandler,
     resetDay: resetDayHandler,

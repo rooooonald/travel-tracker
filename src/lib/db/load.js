@@ -4,6 +4,7 @@ import {
   getDocs,
   query,
   onSnapshot,
+  getDoc,
 } from "firebase/firestore";
 import { db } from "./config";
 
@@ -18,10 +19,17 @@ export const getAllTrips = async () => {
   return tripList;
 };
 
-export const getTrip = (tripId) => {
-  onSnapshot(doc(db, "trips", tripId), (doc) => {
-    return { tripId, ...doc.data() };
-  });
+export const getTrip = async ({ signal, tripId }) => {
+  console.log("running");
+  const docRef = doc(db, "trips", tripId);
+  const docSnap = await getDoc(docRef);
+  // console.log({ tripId, ...docSnap.data() });
+  return { tripId, ...docSnap.data() };
+
+  // onSnapshot(doc(db, "trips", tripId), (doc) => {
+  //   // console.log(doc.data());
+  //   return { tripId, ...doc.data() };
+  // });
 };
 
 export const getVisitedCountries = async () => {

@@ -66,6 +66,7 @@ export default function AddTripDates({
               onChange: dateToChangeHandler,
               onBlur: dateToBlurHandler,
               onFocus: dateToFocusHandler,
+              min: dateFrom,
             }}
             isFocused={dateToIsFocused}
             errorMsg={dateToHasError && "Invalid Input"}

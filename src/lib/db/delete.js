@@ -1,16 +1,20 @@
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "./config";
 
-export const removeItineraryItem = async (
+export const removeTrip = async (tripId) => {
+  await deleteDoc(doc(db, "trips", tripId));
+};
+
+export const removeItineraryItem = async ({
   tripId,
   fullItinerary,
-  currentDay,
-  placeId
-) => {
+  currDay,
+  placeId,
+}) => {
   const updatedItinerary = [...fullItinerary];
 
   const currentDayItineraryIndex = updatedItinerary.findIndex(
-    (itinerary) => itinerary.day === currentDay
+    (itinerary) => itinerary.day === currDay
   );
 
   const updatedDayItinerary = updatedItinerary[currentDayItineraryIndex];
@@ -22,12 +26,12 @@ export const removeItineraryItem = async (
   await updateDoc(tripRef, { itinerary: updatedItinerary });
 };
 
-export const removeFlight = async (
+export const removeFlight = async ({
   mode,
   tripId,
   fullFlightList,
-  flightNumber
-) => {
+  flightNumber,
+}) => {
   const tripRef = doc(db, "trips", tripId);
 
   const updatedFlightList = fullFlightList.filter(
@@ -47,35 +51,37 @@ export const removeFlight = async (
   }
 };
 
-export const removeAccommodation = async (
+export const removeAccommodation = async ({
   tripId,
   fullItinerary,
-  currentDay
-) => {
+  currDay,
+}) => {
   const updatedItinerary = [...fullItinerary];
 
   const currentDayItineraryIndex = updatedItinerary.findIndex(
-    (itinerary) => itinerary.day === currentDay
+    (itinerary) => itinerary.day === currDay
   );
 
   const updatedDayItinerary = updatedItinerary[currentDayItineraryIndex];
   updatedDayItinerary.accommodation = null;
 
-  const tripRef = doc(db, "trips", tripId);
-  await updateDoc(tripRef, { itinerary: updatedItinerary });
+  setTimeout(async () => {
+    const tripRef = doc(db, "trips", tripId);
+    await updateDoc(tripRef, { itinerary: updatedItinerary });
+  }, 10000);
 };
 
-export const removeTransitMethod = async (
+export const removeTransitMethod = async ({
   tripId,
   placeId,
   transitId,
   fullItinerary,
-  currentDay
-) => {
+  currDay,
+}) => {
   const updatedItinerary = [...fullItinerary];
 
   const currentDayItineraryIndex = updatedItinerary.findIndex(
-    (itinerary) => itinerary.day === currentDay
+    (itinerary) => itinerary.day === currDay
   );
   const updatedVisitPlace = updatedItinerary[
     currentDayItineraryIndex

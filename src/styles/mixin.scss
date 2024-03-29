@@ -120,3 +120,11 @@
     background: transparent;
   }
 }
+
+@mixin pending {
+  transition: opacity 0.5s;
+
+  &.is-pending {
+    opacity: 0.3;
+  }
+}

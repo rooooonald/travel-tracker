@@ -1,11 +1,13 @@
 import { useContext } from "react";
 import { ItineraryContext } from "../../../../store/itinerary-context";
 import useInput from "../../../../hooks/use-input";
+import { useMutation } from "@tanstack/react-query";
 
 import { addFlight } from "../../../../lib/db/save";
 
 import FormInput from "../../../ui/FormInput";
 import ButtonPrimary from "../../../ui/buttons/ButtonPrimary";
+import PageLoader from "../../../ui/PageLoader";
 import {
   checkDate,
   checkEmpty,
@@ -16,6 +18,12 @@ import styles from "./AddFlight.module.scss";
 
 export default function AddFlight({ mode, onClose }) {
   const { trip } = useContext(ItineraryContext);
+  const { mutate, isPending } = useMutation({
+    mutationFn: addFlight,
+    onSuccess: () => {
+      onClose();
+    },
+  });
 
   const {
     value: airline,
@@ -109,7 +117,7 @@ export default function AddFlight({ mode, onClose }) {
     terminalToIsValid &&
     arrivalTimeIsValid;
 
-  const submitHandler = async (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
 
     const flightObj = {
@@ -127,8 +135,10 @@ export default function AddFlight({ mode, onClose }) {
       },
     };
 
-    await addFlight(mode, trip.tripId, flightObj);
-    onClose();
+    mutate({ mode, tripId: trip.tripId, flightObj });
+
+    // await addFlight(mode, trip.tripId, flightObj);
+    // onClose();
   };
 
   return (
@@ -149,6 +159,7 @@ export default function AddFlight({ mode, onClose }) {
             onFocus: airlineFocusHandler,
             placeholder: airlineIsFocused ? "" : "AIRLINE",
           }}
+          isRequired={true}
           isFocused={airlineIsFocused}
           errorMsg={airlineHasError && "Invalid Input"}
           className={styles["col-6"]}
@@ -164,6 +175,7 @@ export default function AddFlight({ mode, onClose }) {
             onFocus: flightNumberFocusHandler,
             placeholder: flightNumberIsFocused ? "" : "FLIGHT NO.",
           }}
+          isRequired={true}
           isFocused={flightNumberIsFocused}
           errorMsg={flightNumberHasError && "Invalid Input"}
           className={styles["col-6"]}
@@ -184,6 +196,7 @@ export default function AddFlight({ mode, onClose }) {
             onFocus: airportFromFocusHandler,
             placeholder: airportFromIsFocused ? "" : "AIRPORT CODE (e.g. YYZ)",
           }}
+          isRequired={true}
           isFocused={airportFromIsFocused}
           errorMsg={airportFromHasError && "Invalid Input"}
           className={styles["col-8"]}
@@ -199,6 +212,7 @@ export default function AddFlight({ mode, onClose }) {
             onFocus: terminalFromFocusHandler,
             placeholder: terminalFromIsFocused ? "" : "TERMINAL",
           }}
+          isRequired={true}
           isFocused={terminalFromIsFocused}
           errorMsg={terminalFromHasError && "Invalid Input"}
           className={styles["col-4"]}
@@ -219,6 +233,7 @@ export default function AddFlight({ mode, onClose }) {
             onBlur: departTimeBlurHandler,
             onFocus: departTimeFocusHandler,
           }}
+          isRequired={true}
           isFocused={departTimeIsFocused}
           errorMsg={departTimeHasError && "Invalid Input"}
           className={styles["col-8"]}
@@ -239,6 +254,7 @@ export default function AddFlight({ mode, onClose }) {
             onFocus: airportToFocusHandler,
             placeholder: airportToIsFocused ? "" : "AIRPORT CODE (e.g. HKG)",
           }}
+          isRequired={true}
           isFocused={airportToIsFocused}
           errorMsg={airportToHasError && "Invalid Input"}
           className={styles["col-8"]}
@@ -254,6 +270,7 @@ export default function AddFlight({ mode, onClose }) {
             onFocus: terminalToFocusHandler,
             placeholder: terminalToIsFocused ? "" : "TERMINAL",
           }}
+          isRequired={true}
           isFocused={terminalToIsFocused}
           errorMsg={terminalToHasError && "Invalid Input"}
           className={styles["col-4"]}
@@ -273,6 +290,7 @@ export default function AddFlight({ mode, onClose }) {
             onBlur: arrivalTimeBlurHandler,
             onFocus: arrivalTimeFocusHandler,
           }}
+          isRequired={true}
           isFocused={arrivalTimeIsFocused}
           errorMsg={arrivalTimeHasError && "Invalid Input"}
           className={styles["col-8"]}

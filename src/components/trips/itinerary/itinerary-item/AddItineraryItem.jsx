@@ -1,5 +1,7 @@
 import { useContext, useState } from "react";
 import useInput from "../../../../hooks/use-input";
+import { useMutation } from "@tanstack/react-query";
+import { ItineraryContext } from "../../../../store/itinerary-context";
 
 import { addItineraryItem } from "../../../../lib/db/save";
 
@@ -9,7 +11,6 @@ import ButtonPrimary from "../../../ui/buttons/ButtonPrimary";
 import { checkEmpty } from "../../../../lib/validations";
 
 import styles from "./AddItineraryItem.module.scss";
-import { ItineraryContext } from "../../../../store/itinerary-context";
 
 const categoryOptions = [
   { value: "", text: "-- Category --" },
@@ -39,6 +40,13 @@ export default function AddItineraryItem({ onClose }) {
 
   const itineraryCtx = useContext(ItineraryContext);
   const { currDay, trip } = itineraryCtx;
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: addItineraryItem,
+    onSuccess: () => {
+      onClose();
+    },
+  });
 
   const {
     value: name,
@@ -80,7 +88,7 @@ export default function AddItineraryItem({ onClose }) {
     blurHandler: bookingRefBlurHandler,
   } = useInput(() => true);
 
-  const submitHandler = async (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
 
     setCategoryHasError(false);
@@ -94,12 +102,19 @@ export default function AddItineraryItem({ onClose }) {
       name,
       address,
       arrivalTime,
-      stayTime: +hour * 60 + +minute,
+      stayTime: (+hour || 0) * 60 + (+minute || 0),
       bookingRef,
     };
 
-    await addItineraryItem(trip.tripId, trip.itinerary, currDay, itineraryObj);
-    onClose();
+    mutate({
+      tripId: trip.tripId,
+      fullItinerary: trip.itinerary,
+      currDay,
+      itineraryObj,
+    });
+
+    // await addItineraryItem(trip.tripId, trip.itinerary, currDay, itineraryObj);
+    // onClose();
   };
 
   return (
@@ -110,10 +125,12 @@ export default function AddItineraryItem({ onClose }) {
       <div className={styles.row}>
         <FormSelect
           id="itinerary-category"
+          label="CATEGORY"
           input={{ value: category }}
           onChange={(e) => setCategory(e.target.value)}
           onFocus={() => setCategoryIsFocused(true)}
           onBlur={() => setCategoryIsFocused(false)}
+          isRequired={true}
           isFocused={categoryIsFocused}
           options={categoryOptions}
           className={styles["col-4"]}
@@ -131,6 +148,7 @@ export default function AddItineraryItem({ onClose }) {
             onFocus: nameFocusHandler,
             placeholder: nameIsFocused ? "" : "NAME OF PLACE",
           }}
+          isRequired={true}
           isFocused={nameIsFocused}
           errorMsg={nameHasError && "Invalid Input"}
           className={styles["col-6"]}
@@ -151,6 +169,7 @@ export default function AddItineraryItem({ onClose }) {
             onFocus: addressFocusHandler,
             placeholder: addressIsFocused ? "" : "ADDRESS",
           }}
+          isRequired={true}
           isFocused={addressIsFocused}
           errorMsg={addressHasError && "Invalid Input"}
           className={styles["col-12"]}
@@ -173,6 +192,7 @@ export default function AddItineraryItem({ onClose }) {
             onFocus: arrivalTimeFocusHandler,
           }}
           isFocused={arrivalTimeIsFocused}
+          isRequired={true}
           errorMsg={arrivalTimeHasError && "Invalid Time"}
           className={styles["col-4"]}
         />

@@ -32,6 +32,7 @@ export default function AddTripCities({
     valueChangeHandler: cityNameChangeHandler,
     focusHandler: cityNameFocusHandler,
     blurHandler: cityNameBlurHandler,
+    resetHandler: cityNameResetHandler,
   } = useInput(checkEmpty);
 
   const filteredCountries = COUNTRIES.filter((country) =>
@@ -83,12 +84,14 @@ export default function AddTripCities({
             type="button"
             disabled={!country || !cityNameIsValid}
             className={styles["add-btn"]}
-            onClick={() =>
+            onClick={() => {
               onSetCities({
                 name: cityName.toLowerCase(),
                 country,
-              })
-            }
+              });
+              cityNameResetHandler();
+              setCountry("");
+            }}
           >
             <GeneralIcon.Add />
           </button>
@@ -120,7 +123,7 @@ export default function AddTripCities({
 
         <ButtonPrimary
           type="button"
-          disabled={cities.length < 0}
+          disabled={cities.length === 0}
           onClick={() => onSwitchStep(+1)}
         >
           <GeneralIcon.Right />

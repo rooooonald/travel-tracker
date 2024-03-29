@@ -1,7 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ItineraryContext } from "../store/itinerary-context";
-import EditModeContextProvider from "../store/edit-mode-context";
+import EditModeContextProvider, {
+  EditModeContext,
+} from "../store/edit-mode-context";
 
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../lib/db/config";
@@ -21,21 +23,25 @@ export default function ItineraryPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
 
-  const itineraryCtx = useContext(ItineraryContext);
+  const { trip, setTrip, resetDay } = useContext(ItineraryContext);
+  const { toggleEditMode } = useContext(EditModeContext);
 
   useEffect(() => {
     setIsLoading(true);
     onSnapshot(doc(db, "trips", tripId), (doc) => {
-      const retrievedTrip = { tripId, ...doc.data() };
+      if (doc.data()) {
+        const retrievedTrip = { tripId, ...doc.data() };
 
-      itineraryCtx.setTrip(retrievedTrip);
-      setIsLoading(false);
+        setTrip(retrievedTrip);
+        toggleEditMode();
+        setIsLoading(false);
+      }
     });
 
-    itineraryCtx.resetDay();
+    resetDay();
   }, [tripId]);
 
-  if (!itineraryCtx.trip || isLoading) {
+  if (!trip || isLoading) {
     return <PageLoader />;
   }
 

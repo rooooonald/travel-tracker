@@ -10,6 +10,7 @@ import ButtonPrimary from "../../../ui/buttons/ButtonPrimary";
 import { checkEmpty } from "../../../../lib/validations";
 
 import styles from "./AddTransport.module.scss";
+import { useMutation } from "@tanstack/react-query";
 
 const methodOptions = [
   { value: "", text: "-- Transit Method --" },
@@ -26,6 +27,10 @@ export default function AddTransport({ placeId, onClose }) {
   const [methodIsFocused, setMethodIsFocused] = useState(false);
 
   const { trip, currDay } = useContext(ItineraryContext);
+  const { mutate, isPending } = useMutation({
+    mutationFn: addTransitMethod,
+    onSuccess: () => onClose(),
+  });
 
   const {
     value: from,
@@ -89,15 +94,23 @@ export default function AddTransport({ placeId, onClose }) {
       fare: +fare,
     };
 
-    await addTransitMethod(
-      trip.tripId,
+    mutate({
+      tripId: trip.tripId,
       placeId,
-      trip.itinerary,
+      fullItinerary: trip.itinerary,
       currDay,
-      transportObj
-    );
+      transportObj,
+    });
 
-    onClose();
+    // await addTransitMethod(
+    //   trip.tripId,
+    //   placeId,
+    //   trip.itinerary,
+    //   currDay,
+    //   transportObj
+    // );
+
+    // onClose();
   };
 
   const formisValid =
@@ -120,6 +133,7 @@ export default function AddTransport({ placeId, onClose }) {
           onChange={(e) => setMethod(e.target.value)}
           onFocus={() => setMethodIsFocused(true)}
           onBlur={() => setMethodIsFocused(false)}
+          isRequired={true}
           isFocused={methodIsFocused}
           options={methodOptions}
           className={styles["col-6"]}
@@ -141,6 +155,7 @@ export default function AddTransport({ placeId, onClose }) {
             onFocus: fromFocusHandler,
             placeholder: fromIsFocused ? "" : "e.g. Shinjuku Stn.",
           }}
+          isRequired={true}
           isFocused={fromIsFocused}
           errorMsg={fromHasError && "Invalid Input"}
           className={styles["col-6"]}
@@ -156,6 +171,7 @@ export default function AddTransport({ placeId, onClose }) {
             onBlur: departTimeBlurHandler,
             onFocus: departTimeFocusHandler,
           }}
+          isRequired={true}
           isFocused={departTimeIsFocused}
           errorMsg={departTimeHasError && "Invalid Input"}
           className={styles["col-4"]}
@@ -177,6 +193,7 @@ export default function AddTransport({ placeId, onClose }) {
             onFocus: toFocusHandler,
             placeholder: toIsFocused ? "" : "e.g. Shibuya Stn.",
           }}
+          isRequired={true}
           isFocused={toIsFocused}
           errorMsg={toHasError && "Invalid Input"}
           className={styles["col-6"]}
@@ -192,6 +209,7 @@ export default function AddTransport({ placeId, onClose }) {
             onBlur: arrivalTimeBlurHandler,
             onFocus: arrivalTimeFocusHandler,
           }}
+          isRequired={true}
           isFocused={arrivalTimeIsFocused}
           errorMsg={arrivalTimeHasError && "Invalid Input"}
           className={styles["col-4"]}

@@ -2,7 +2,7 @@
 @import "/src/styles/mixin.scss";
 
 .wrapper {
-  height: 50px;
+  min-height: 50px;
   position: relative;
 
   @include gradient-bg;

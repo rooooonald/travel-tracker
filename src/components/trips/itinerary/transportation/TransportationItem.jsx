@@ -1,5 +1,7 @@
 import { useContext } from "react";
 import { ItineraryContext } from "../../../../store/itinerary-context";
+import { EditModeContext } from "../../../../store/edit-mode-context";
+import { useMutation } from "@tanstack/react-query";
 
 import { removeTransitMethod } from "../../../../lib/db/delete";
 
@@ -10,7 +12,7 @@ import currencyFormatter from "../../../../lib/currency-formatter";
 import styles from "./TransportationItem.module.scss";
 import { TransportIcon } from "../../../../styles/icons";
 import { GiBottomRight3DArrow } from "react-icons/gi";
-import { EditModeContext } from "../../../../store/edit-mode-context";
+import PageLoader from "../../../ui/PageLoader";
 
 export default function TransportationItem({
   transportation,
@@ -20,6 +22,10 @@ export default function TransportationItem({
 }) {
   const { trip, currDay } = useContext(ItineraryContext);
   const { isEditMode } = useContext(EditModeContext);
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: removeTransitMethod,
+  });
 
   if (!transportation) {
     return (
@@ -32,14 +38,22 @@ export default function TransportationItem({
   const { transitId, method, from, to, departTime, arrivalTime, fare } =
     transportation;
 
-  const removeTransitHandler = async () => {
-    await removeTransitMethod(
-      trip.tripId,
+  const removeTransitHandler = () => {
+    mutate({
+      tripId: trip.tripId,
       placeId,
       transitId,
-      trip.itinerary,
-      currDay
-    );
+      fullItinerary: trip.itinerary,
+      currDay,
+    });
+
+    // await removeTransitMethod(
+    //   trip.tripId,
+    //   placeId,
+    //   transitId,
+    //   trip.itinerary,
+    //   currDay
+    // );
   };
 
   let icon;
@@ -65,7 +79,11 @@ export default function TransportationItem({
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div
+      className={`${styles.wrapper} ${
+        isPending ? styles["is-pending"] : undefined
+      }`}
+    >
       <div className={`${styles.icon} ${styles[`bg-color-${category}`]}`}>
         {icon}
         {fare !== 0 && <p>{currencyFormatter(fare)}</p>}

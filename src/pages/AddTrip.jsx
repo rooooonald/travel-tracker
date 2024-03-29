@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import useInput from "../hooks/use-input";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
 import { ItineraryContext } from "../store/itinerary-context";
 
 import { addTripToDatebase } from "../lib/db/save";
@@ -12,6 +13,7 @@ import AddTripCities from "../components/trips/add-trip/AddTripCities";
 import ProgressBar from "../components/trips/add-trip/ProgressBar";
 import ButtonPrimary from "../components/ui/buttons/ButtonPrimary";
 import ButtonReturn from "../components/ui/buttons/ButtonReturn";
+import PageLoader from "../components/ui/PageLoader";
 import { checkChar, checkDate, checkEmpty } from "../lib/validations";
 
 import styles from "./AddTrip.module.scss";
@@ -26,6 +28,13 @@ export default function AddTripPage() {
 
   const navigate = useNavigate();
   const { resetDay } = useContext(ItineraryContext);
+  const { mutate, isPending, isError, error } = useMutation({
+    mutationFn: addTripToDatebase,
+    onSuccess: (tripId) => {
+      resetDay();
+      navigate(`/trips/${tripId}`);
+    },
+  });
 
   const selectCountryHandler = (countryId) => {
     if (selectedCountries.includes(countryId)) {
@@ -59,7 +68,7 @@ export default function AddTripPage() {
     setCities(updatedCityList);
   };
 
-  const submitHandler = async () => {
+  const submitHandler = () => {
     const data = {
       title: titleInput.value.trim(),
       dateFrom: dateFromInput.value,
@@ -68,10 +77,7 @@ export default function AddTripPage() {
       cities,
     };
 
-    const tripId = await addTripToDatebase(data);
-
-    resetDay();
-    navigate(`/trips/${tripId}`);
+    mutate(data);
   };
 
   const switchStepHandler = (step) => {
@@ -81,6 +87,10 @@ export default function AddTripPage() {
   const titleInput = useInput((title) => checkChar(title, { maxChar: 20 }));
   const dateFromInput = useInput(checkEmpty);
   const dateToInput = useInput(checkDate, { dateFrom: dateFromInput.value });
+
+  if (isPending) {
+    return <PageLoader />;
+  }
 
   return (
     <LazyMotion features={domAnimation}>

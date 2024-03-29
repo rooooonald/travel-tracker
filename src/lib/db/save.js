@@ -50,16 +50,16 @@ export const addTripToDatebase = async (trip) => {
   return docRef.id;
 };
 
-export const addItineraryItem = async (
+export const addItineraryItem = async ({
   tripId,
   fullItinerary,
-  currentDay,
-  itineraryObj
-) => {
+  currDay,
+  itineraryObj,
+}) => {
   const updatedItinerary = [...fullItinerary];
 
   const currentDayItineraryIndex = updatedItinerary.findIndex(
-    (itinerary) => itinerary.day === currentDay
+    (itinerary) => itinerary.day === currDay
   );
   const updatedDayItinerary = updatedItinerary[currentDayItineraryIndex];
   updatedDayItinerary.visitPlaces.push({ placeId: uuidv4(), ...itineraryObj });
@@ -68,7 +68,7 @@ export const addItineraryItem = async (
   await updateDoc(tripRef, { itinerary: updatedItinerary });
 };
 
-export const addFlight = async (mode, tripId, flightObj) => {
+export const addFlight = async ({ mode, tripId, flightObj }) => {
   const tripRef = doc(db, "trips", tripId);
 
   if (mode === "depart") {
@@ -84,17 +84,17 @@ export const addFlight = async (mode, tripId, flightObj) => {
   }
 };
 
-export const addTransitMethod = async (
+export const addTransitMethod = async ({
   tripId,
   placeId,
   fullItinerary,
-  currentDay,
-  transportObj
-) => {
+  currDay,
+  transportObj,
+}) => {
   const updatedItinerary = [...fullItinerary];
 
   const currentDayItineraryIndex = updatedItinerary.findIndex(
-    (itinerary) => itinerary.day === currentDay
+    (itinerary) => itinerary.day === currDay
   );
   const updatedVisitPlace = updatedItinerary[
     currentDayItineraryIndex
@@ -111,16 +111,16 @@ export const addTransitMethod = async (
   await updateDoc(tripRef, { itinerary: updatedItinerary });
 };
 
-export const addAccommodation = async (
+export const addAccommodation = async ({
   tripId,
   fullItinerary,
-  currentDay,
-  accommodationObj
-) => {
+  currDay,
+  accommodationObj,
+}) => {
   const updatedItinerary = [...fullItinerary];
 
   const currentDayItineraryIndex = updatedItinerary.findIndex(
-    (itinerary) => itinerary.day === currentDay
+    (itinerary) => itinerary.day === currDay
   );
   const updatedDayItinerary = updatedItinerary[currentDayItineraryIndex];
   updatedDayItinerary.accommodation = {

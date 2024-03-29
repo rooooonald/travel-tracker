@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { ItineraryContext } from "../../../../store/itinerary-context";
 import { EditModeContext } from "../../../../store/edit-mode-context";
+import { useMutation } from "@tanstack/react-query";
 
 import { removeItineraryItem } from "../../../../lib/db/delete";
 
@@ -8,6 +9,7 @@ import TransportationList from "../transportation/TransportationList";
 import PlaceTime from "./PlaceTime";
 import BlankBox from "../../../ui/BlankBox";
 import AddressLink from "../../../ui/AddressLink";
+import PageLoader from "../../../ui/PageLoader";
 import ButtonRemove from "../../../ui/buttons/ButtonRemove";
 
 import styles from "./VisitPlaceItem.module.scss";
@@ -15,6 +17,10 @@ import styles from "./VisitPlaceItem.module.scss";
 export default function VisitPlaceItem({ place, onAdd }) {
   const { trip, currDay } = useContext(ItineraryContext);
   const { isEditMode } = useContext(EditModeContext);
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: removeItineraryItem,
+  });
 
   if (!place) {
     return (
@@ -48,12 +54,22 @@ export default function VisitPlaceItem({ place, onAdd }) {
     }
   });
 
-  const removeHandler = async () => {
-    await removeItineraryItem(trip.tripId, trip.itinerary, currDay, placeId);
+  const removeHandler = () => {
+    mutate({
+      tripId: trip.tripId,
+      fullItinerary: trip.itinerary,
+      currDay,
+      placeId,
+    });
+    // await removeItineraryItem(trip.tripId, trip.itinerary, currDay, placeId);
   };
 
   return (
-    <div className={styles.wrapper}>
+    <div
+      className={`${styles.wrapper} ${
+        isPending ? styles["is-pending"] : undefined
+      }`}
+    >
       <PlaceTime
         category={category}
         arrivalTime={arrivalTime}

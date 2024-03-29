@@ -1,18 +1,36 @@
+import { useContext, useEffect } from "react";
+import { ItineraryContext } from "../../../store/itinerary-context";
+import { EditModeContext } from "../../../store/edit-mode-context";
+
 import ButtonPrimary from "../../ui/buttons/ButtonPrimary";
 import dateTimeFormatter from "../../../lib/datetime-formatter";
 
 import styles from "./ItineraryNav.module.scss";
 import { GeneralIcon } from "../../../styles/icons";
 import { LazyMotion, domAnimation, m } from "framer-motion";
-import { useContext } from "react";
-import { ItineraryContext } from "../../../store/itinerary-context";
 import { MdOutlineAddLocation, MdOutlineEditNote } from "react-icons/md";
-import { EditModeContext } from "../../../store/edit-mode-context";
+import { TiTick } from "react-icons/ti";
 
 export default function ItineraryNav({ onAddItem }) {
-  const { trip, currDay, currDayItinerary, setDay } =
+  const { trip, currDay, finalDay, currDayItinerary, setDay } =
     useContext(ItineraryContext);
-  const { toggleEditMode } = useContext(EditModeContext);
+  const { isEditMode, toggleEditMode, resetEditMode } =
+    useContext(EditModeContext);
+
+  const itineraryIsEmpty =
+    currDayItinerary.visitPlaces.length === 0 &&
+    (currDay === 1
+      ? !trip.flightsDepart || trip.flightsDepart?.length === 0
+      : true) &&
+    (currDay === finalDay
+      ? !trip.flightsReturn || trip.flightsReturn?.length === 0
+      : true) &&
+    (currDay !== finalDay ? !currDayItinerary.accommodation : true);
+
+  useEffect(() => {
+    itineraryIsEmpty && resetEditMode();
+  }, [itineraryIsEmpty]);
+
   return (
     <LazyMotion features={domAnimation}>
       <m.aside
@@ -58,15 +76,15 @@ export default function ItineraryNav({ onAddItem }) {
 
           <div className={styles["current-day"]}>
             <m.div
-              key={currDayItinerary.day}
+              key={currDayItinerary?.day}
               animate={{ rotate: 360 }}
               transition={{ duration: 0.25 }}
             >
               <p>EPISODE</p>
-              <p>{currDayItinerary.day}</p>
+              <p>{currDayItinerary?.day}</p>
             </m.div>
             <p>
-              {dateTimeFormatter(currDayItinerary.date, {
+              {dateTimeFormatter(currDayItinerary?.date, {
                 month: "short",
                 day: "numeric",
                 timeZone: "UTC",
@@ -85,9 +103,11 @@ export default function ItineraryNav({ onAddItem }) {
           <ButtonPrimary onClick={onAddItem}>
             <MdOutlineAddLocation />
           </ButtonPrimary>
-          <ButtonPrimary onClick={toggleEditMode}>
-            <MdOutlineEditNote />
-          </ButtonPrimary>
+          {!itineraryIsEmpty && (
+            <ButtonPrimary onClick={toggleEditMode}>
+              {isEditMode ? <TiTick /> : <MdOutlineEditNote />}
+            </ButtonPrimary>
+          )}
         </div>
       </m.aside>
     </LazyMotion>

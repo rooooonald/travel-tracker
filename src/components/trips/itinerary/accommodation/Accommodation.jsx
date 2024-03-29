@@ -1,5 +1,9 @@
 import { useContext, useState } from "react";
 import { EditModeContext } from "../../../../store/edit-mode-context";
+import { ItineraryContext } from "../../../../store/itinerary-context";
+import { useMutation } from "@tanstack/react-query";
+
+import { removeAccommodation } from "../../../../lib/db/delete";
 
 import AddressLink from "../../../ui/AddressLink";
 import AddAccommodation from "./AddAccommodation";
@@ -10,14 +14,15 @@ import currencyFormatter from "../../../../lib/currency-formatter";
 
 import styles from "./Accommodation.module.scss";
 import { AnimatePresence } from "framer-motion";
-import { removeAccommodation } from "../../../../lib/db/delete";
-import { ItineraryContext } from "../../../../store/itinerary-context";
 
 export default function Accommodation({ accommodation }) {
   const [isAdding, setIsAdding] = useState(false);
 
   const { trip, currDay } = useContext(ItineraryContext);
   const { isEditMode } = useContext(EditModeContext);
+  const { mutate, isPending } = useMutation({
+    mutationFn: removeAccommodation,
+  });
 
   if (!accommodation) {
     return (
@@ -36,14 +41,20 @@ export default function Accommodation({ accommodation }) {
     );
   }
 
-  const removeFlightHandler = async () => {
-    await removeAccommodation(trip.tripId, trip.itinerary, currDay);
+  const removeAccommodationHandler = () => {
+    mutate({ tripId: trip.tripId, fullItinerary: trip.itinerary, currDay });
+
+    // await removeAccommodation(trip.tripId, trip.itinerary, currDay);
   };
 
   const { hotelName, address, pricePerNight, bookingRef } = accommodation;
 
   return (
-    <div className={styles.wrapper}>
+    <div
+      className={`${styles.wrapper} ${
+        isPending ? styles["is-pending"] : undefined
+      }`}
+    >
       <div className={styles.info}>
         <div className={styles.title}>
           <p>{hotelName}</p>
@@ -63,7 +74,7 @@ export default function Accommodation({ accommodation }) {
       </div>
       {isEditMode && (
         <ButtonRemove
-          onClick={removeFlightHandler}
+          onClick={removeAccommodationHandler}
           className={styles["remove-btn"]}
         />
       )}

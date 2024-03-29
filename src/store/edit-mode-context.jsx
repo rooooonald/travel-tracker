@@ -3,6 +3,7 @@ import { createContext, useState } from "react";
 export const EditModeContext = createContext({
   isEditMode: false,
   toggleEditMode: () => {},
+  resetEditMode: () => {},
 });
 
 export default function EditModeContextProvider({ children }) {
@@ -12,7 +13,15 @@ export default function EditModeContextProvider({ children }) {
     setIsEditMode((prev) => !prev);
   };
 
-  const context = { isEditMode, toggleEditMode: toggleEditModeHandler };
+  const resetEditModeHandler = () => {
+    setIsEditMode(false);
+  };
+
+  const context = {
+    isEditMode,
+    toggleEditMode: toggleEditModeHandler,
+    resetEditMode: resetEditModeHandler,
+  };
 
   return (
     <EditModeContext.Provider value={context}>

@@ -1,18 +1,25 @@
 import { useContext } from "react";
 import useInput from "../../../../hooks/use-input";
 import { ItineraryContext } from "../../../../store/itinerary-context";
+import { useMutation } from "@tanstack/react-query";
 
 import { addAccommodation } from "../../../../lib/db/save";
 
 import ButtonPrimary from "../../../ui/buttons/ButtonPrimary";
-import { checkEmpty } from "../../../../lib/validations";
-
 import FormInput from "../../../ui/FormInput";
+import { checkEmpty } from "../../../../lib/validations";
 
 import styles from "./AddAccommodation.module.scss";
 
 export default function AddAccommodation({ onClose }) {
   const { trip, currDay } = useContext(ItineraryContext);
+  const { mutate, isPending } = useMutation({
+    mutationFn: addAccommodation,
+    onSuccess: () => {
+      onClose();
+    },
+  });
+
   const {
     value: name,
     isValid: nameIsValid,
@@ -45,7 +52,6 @@ export default function AddAccommodation({ onClose }) {
 
   const {
     value: bookingRef,
-    isValid: bookingRefIsValid,
     isFocused: bookingRefIsFocused,
     hasError: bookingRefHasError,
     valueChangeHandler: bookingRefChangeHandler,
@@ -53,7 +59,7 @@ export default function AddAccommodation({ onClose }) {
     blurHandler: bookingRefBlurHandler,
   } = useInput(() => true);
 
-  const submitHandler = async (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
 
     const accommodationObj = {
@@ -63,14 +69,19 @@ export default function AddAccommodation({ onClose }) {
       bookingRef,
     };
 
-    await addAccommodation(
-      trip.tripId,
-      trip.itinerary,
+    mutate({
+      tripId: trip.tripId,
+      fullItinerary: trip.itinerary,
       currDay,
-      accommodationObj
-    );
+      accommodationObj,
+    });
 
-    onClose();
+    // await addAccommodation(
+    //   trip.tripId,
+    //   trip.itinerary,
+    //   currDay,
+    //   accommodationObj
+    // );
   };
 
   return (
@@ -88,8 +99,10 @@ export default function AddAccommodation({ onClose }) {
             onChange: nameChangeHandler,
             onBlur: nameBlurHandler,
             onFocus: nameFocusHandler,
+
             placeholder: nameIsFocused ? "" : "NAME",
           }}
+          isRequired={true}
           isFocused={nameIsFocused}
           errorMsg={nameHasError && "Invalid Input"}
           className={styles["col-6"]}
@@ -105,6 +118,7 @@ export default function AddAccommodation({ onClose }) {
             onFocus: priceFocusHandler,
             placeholder: priceIsFocused ? "" : "PRICE PER NIGHT",
           }}
+          isRequired={true}
           isFocused={priceIsFocused}
           errorMsg={priceHasError && "Invalid Input"}
           className={styles["col-4"]}
@@ -125,6 +139,7 @@ export default function AddAccommodation({ onClose }) {
             onFocus: addressFocusHandler,
             placeholder: addressIsFocused ? "" : "ADDRESS",
           }}
+          isRequired={true}
           isFocused={addressIsFocused}
           errorMsg={addressHasError && "Invalid Input"}
           className={styles["col-12"]}

@@ -6,6 +6,7 @@ export default function FormInput({
   label,
   input,
   isFocused,
+  isRequired,
   errorMsg,
   className,
 }) {
@@ -21,6 +22,7 @@ export default function FormInput({
           htmlFor={id}
         >
           {label}
+          {isRequired && <sup>*</sup>}
         </m.label>
         <input
           id={id}
