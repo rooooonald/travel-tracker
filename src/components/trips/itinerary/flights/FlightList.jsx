@@ -17,6 +17,13 @@ export default function FlightList({ mode }) {
   const { trip } = useContext(ItineraryContext);
   const flights = mode === "depart" ? trip.flightsDepart : trip.flightsReturn;
 
+  const sortedFlightList = flights.sort((a, b) => {
+    const aTimestamp = new Date(a.from.departTime).getTime();
+    const bTimestamp = new Date(b.from.departTime).getTime();
+
+    return aTimestamp - bTimestamp;
+  });
+
   let icon = mode === "depart" ? <MdFlightLand /> : <MdFlightTakeoff />;
 
   return (
@@ -24,7 +31,7 @@ export default function FlightList({ mode }) {
       <div className={styles["flight-icon-container"]}>{icon}</div>
       <div className={styles.list}>
         {flights &&
-          flights.map((flight, i) => (
+          sortedFlightList.map((flight, i) => (
             <FlightItem
               key={flight.flightNumber}
               mode={mode}
