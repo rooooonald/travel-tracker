@@ -1,0 +1,9 @@
+.background-stamps {
+  position: absolute;
+  bottom: 100px;
+
+  opacity: 0.1;
+  filter: invert(1);
+  transform: rotate(5deg);
+  pointer-events: none;
+}

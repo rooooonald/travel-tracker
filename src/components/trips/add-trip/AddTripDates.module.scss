@@ -1,0 +1,32 @@
+@import "/src/styles/mixin.scss";
+@import "/src/styles/variables.scss";
+
+@include row;
+@include form-question;
+@include column-width;
+
+.form-content {
+  width: 100%;
+
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.btn-group {
+  width: 100%;
+  height: 50px;
+  position: sticky;
+  bottom: 0;
+
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+
+  button {
+    width: 50px;
+    height: 50px;
+  }
+}

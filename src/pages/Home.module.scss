@@ -1,0 +1,9 @@
+@import "/src/styles/variables.scss";
+
+.wrapper {
+  height: 100%;
+  margin: auto;
+  max-width: 1200px;
+  position: relative;
+  display: flex;
+}

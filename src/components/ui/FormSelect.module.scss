@@ -1,0 +1,43 @@
+@import "/src/styles/mixin.scss";
+@import "/src/styles/variables.scss";
+
+.wrapper {
+  width: 25%;
+  position: relative;
+}
+
+.wrapper label {
+  padding: 0 0.5rem;
+  position: absolute;
+  top: -0.5rem;
+  left: 1rem;
+
+  background-color: white;
+  color: #aaa;
+}
+
+.wrapper select {
+  width: 100%;
+  height: 50px;
+  padding: 0 1rem;
+
+  border: 1px solid #aaa;
+  font-size: 1rem;
+  font-family: var(--font-nunito);
+}
+
+.error {
+  text-align: right;
+  color: $primary-color;
+  font-size: 0.8rem;
+}
+
+@media screen and (max-width: 576px) {
+  .wrapper label {
+    left: 0.3rem;
+  }
+
+  .wrapper select {
+    padding: 0 0.5rem;
+  }
+}

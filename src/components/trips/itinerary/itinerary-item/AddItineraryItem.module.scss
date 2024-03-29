@@ -1,0 +1,25 @@
+@import "../../../../styles/mixin.scss";
+@import "../../../../styles/variables.scss";
+@include column-width;
+@include form-question;
+@include row;
+
+.wrapper {
+  width: 600px;
+  height: 100%;
+  padding: 1rem;
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.icon {
+  position: absolute;
+  opacity: 0.1;
+  bottom: -20%;
+  right: -20%;
+
+  z-index: -1;
+}

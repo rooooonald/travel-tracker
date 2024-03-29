@@ -1,0 +1,37 @@
+@import "/src/styles/mixin.scss";
+@import "/src/styles/variables.scss";
+
+.wrapper {
+  width: 700px;
+  padding: 2rem;
+  margin-bottom: 200px;
+
+  box-shadow: -5px 5px 5px rgba(0, 0, 0, 0.5);
+  transform: rotate(5deg) translate(25px, 50px);
+  transform-origin: 0 0;
+  border-radius: 1rem;
+  background-color: $fourth-color;
+
+  z-index: 1;
+}
+
+.start {
+  width: 150px;
+  height: 150px;
+
+  display: flex;
+  @include absolute-center;
+
+  border-radius: 1rem;
+  border: 5px solid $primary-color;
+
+  overflow: hidden;
+
+  svg {
+    width: 150px;
+
+    font-size: 5rem;
+    color: $primary-color;
+    text-align: center;
+  }
+}

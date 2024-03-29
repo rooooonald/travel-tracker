@@ -1,0 +1,77 @@
+@import "/src/styles/mixin.scss";
+@import "/src/styles/variables.scss";
+
+@include bg-color("shopping", $primary-color);
+@include bg-color("dining", $secondary-color);
+@include bg-color("sightseeing", $third-color);
+@include text-color("shopping", $primary-color);
+@include text-color("dining", $secondary-color);
+@include text-color("sightseeing", $third-color);
+@include border-color("shopping", $primary-color);
+@include border-color("dining", $secondary-color);
+@include border-color("sightseeing", $third-color);
+
+.wrapper {
+  width: 150px;
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  .time-dot {
+    width: 50px;
+    height: 50px;
+    margin: 2rem 0 -1rem 0;
+
+    display: flex;
+    @include absolute-center;
+
+    color: $fourth-color;
+    font-size: 1.5rem;
+    border-radius: 50%;
+
+    z-index: 2;
+  }
+
+  .time-info {
+    width: 110px;
+    padding: 1rem 0 0.5rem 0;
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    @include absolute-center;
+
+    background-color: $fourth-color;
+    border: 1px solid;
+    border-radius: 1rem;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+    transform: rotate(-15deg);
+
+    z-index: 1;
+
+    .arrival-time {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .stay-time {
+      width: 100%;
+
+      color: $fourth-color;
+      text-align: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+  }
+
+  .time-bar {
+    width: 30px;
+    height: 100%;
+    position: absolute;
+
+    opacity: 0.3;
+  }
+}

@@ -1,0 +1,101 @@
+@import "/src/styles/mixin.scss";
+@import "/src/styles/variables.scss";
+
+.wrapper {
+  width: 80%;
+  max-width: 800px;
+  height: 80vh;
+  margin: auto;
+  position: relative;
+
+  display: flex;
+
+  background-color: $fourth-color;
+  border-radius: 1rem;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+
+  z-index: 1;
+}
+
+.img {
+  width: 50%;
+  height: 100%;
+  object-fit: cover;
+
+  border-radius: 1rem 0 0 1rem;
+}
+
+.form {
+  width: 50%;
+  height: 100%;
+  padding: 2rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  border-radius: 0 1rem 1rem 0;
+
+  overflow: scroll;
+}
+
+.completed-screen {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .completed-content {
+    width: 100%;
+
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .completed-graphic {
+    width: 250px;
+    height: 250px;
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    @include absolute-center;
+
+    border: 20px solid $primary-color;
+    border-radius: 50%;
+    color: $primary-color;
+
+    overflow: hidden;
+
+    p {
+      position: absolute;
+      top: 50%;
+
+      font-size: 2.5rem;
+      font-family: $heading-font;
+
+      transform: translateY(-50%);
+    }
+  }
+
+  .btn-group {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+
+    button {
+      width: 80%;
+      height: 50px;
+    }
+
+    button:nth-child(2) {
+      width: 40%;
+      height: 50px;
+    }
+  }
+}

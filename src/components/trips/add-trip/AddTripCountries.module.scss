@@ -1,0 +1,86 @@
+@import "/src/styles/variables.scss";
+@import "/src/styles/mixin.scss";
+
+@include form-question;
+
+.form-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 1rem;
+
+  .form-question {
+    transform: translateY(1.5rem);
+  }
+
+  button {
+    width: 100px;
+    height: auto;
+    padding: 1rem;
+    margin: 0 auto;
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+
+    background-color: transparent;
+
+    &.active {
+      img {
+        filter: brightness(0.5);
+      }
+
+      .marker {
+        display: block;
+        position: absolute;
+
+        font-size: 2rem;
+        color: $third-color;
+
+        animation: rotate-marker 1s infinite normal linear;
+        z-index: 1;
+      }
+    }
+
+    img {
+      width: 50px;
+      height: 50px;
+
+      object-fit: cover;
+
+      border-radius: 50%;
+    }
+
+    .marker {
+      display: none;
+    }
+  }
+}
+
+.btn-group {
+  width: 100%;
+  height: 50px;
+  position: sticky;
+  bottom: 0;
+
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+
+  button {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@keyframes rotate-marker {
+  from {
+    transform: rotateY(0) translateY(-10px);
+  }
+
+  to {
+    transform: rotateY(360deg) translateY(-10px);
+  }
+}

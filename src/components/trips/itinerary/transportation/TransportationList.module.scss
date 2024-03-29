@@ -1,0 +1,33 @@
+@import "/src/styles/mixin.scss";
+@import "/src/styles/variables.scss";
+
+.wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  gap: 1rem;
+
+  overflow-x: scroll;
+}
+
+.add {
+  min-width: 50px;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  @include absolute-center;
+
+  border-radius: 1rem;
+  color: $third-color;
+  background-color: transparent;
+
+  overflow: visible;
+
+  opacity: 0.3;
+  transition: opacity 0.5s;
+
+  &:hover {
+    opacity: 1;
+  }
+}

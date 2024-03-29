@@ -1,0 +1,23 @@
+@import "/src/styles/mixin.scss";
+@import "/src/styles/variables.scss";
+
+.path {
+  position: relative;
+
+  fill: $fourth-color;
+  fill-opacity: 0.3;
+  stroke: $fourth-color;
+  stroke-opacity: 0.7;
+  stroke-width: 1;
+  transition: 0.5s;
+
+  cursor: pointer;
+
+  &:hover {
+    fill-opacity: 0.9;
+  }
+
+  &.active {
+    fill-opacity: 0.9;
+  }
+}

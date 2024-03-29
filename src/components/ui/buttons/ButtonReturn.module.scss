@@ -1,0 +1,15 @@
+@import "/src/styles/variables.scss";
+@import "/src/styles/mixin.scss";
+
+.wrapper {
+  height: 50px;
+  position: relative;
+
+  border-radius: 25px;
+  background-color: #eee;
+  color: #aaa;
+
+  &:active {
+    background-color: #ccc;
+  }
+}

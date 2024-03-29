@@ -1,0 +1,80 @@
+@import "/src/styles/mixin.scss";
+@import "/src/styles/variables.scss";
+
+@include bg-color("shopping", $primary-color);
+@include bg-color("dining", $secondary-color);
+@include bg-color("sightseeing", $third-color);
+
+.wrapper {
+  min-width: 300px;
+  width: auto;
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 1rem;
+
+  overflow: hidden;
+}
+
+.blank {
+  width: 150px;
+  height: 100px;
+}
+
+.icon {
+  width: 75px;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  @include absolute-center;
+  gap: 0.5rem;
+
+  color: $fourth-color;
+
+  svg {
+    font-size: 1.5rem;
+  }
+}
+
+.info {
+  padding: 0.25rem 0.5rem;
+  position: relative;
+
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  font-size: 0.8rem;
+  background-color: rgba(255, 255, 255, 0.5);
+
+  div:nth-child(2) {
+    align-self: flex-end;
+  }
+
+  .station {
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .arrow {
+    position: absolute;
+    left: 50px;
+    top: 10px;
+
+    font-size: 5rem;
+    opacity: 0.15;
+  }
+}
+
+.remove-btn {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+}

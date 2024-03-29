@@ -1,0 +1,115 @@
+@mixin gradient-bg {
+  background: linear-gradient(
+    147deg,
+    rgba(206, 51, 117, 1) 19%,
+    rgba(26, 80, 145, 1) 71%,
+    rgba(86, 203, 179, 1) 100%
+  );
+
+  background-size: 400% 400%;
+
+  animation: moving-gradient 15s ease-in-out infinite;
+
+  @keyframes moving-gradient {
+    0% {
+      background-position: 0 0;
+    }
+
+    25% {
+      background-position: 100% 0;
+    }
+
+    50% {
+      background-position: 100% 100%;
+    }
+
+    75% {
+      background-position: 0 100%;
+    }
+
+    100% {
+      background-position: 0 0;
+    }
+  }
+}
+
+@mixin gradient-text {
+  @include gradient-bg;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@mixin absolute-center {
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin column-width {
+  .col-12 {
+    width: 100%;
+  }
+
+  .col-8 {
+    width: 66.66%;
+  }
+
+  .col-6 {
+    width: 50%;
+  }
+
+  .col-4 {
+    width: 33.33%;
+  }
+
+  .col-3 {
+    width: 25%;
+  }
+
+  .col-2 {
+    width: 16.66%;
+  }
+}
+
+@mixin bg-color($type, $color) {
+  .bg-color-#{$type} {
+    background-color: $color;
+  }
+}
+
+@mixin text-color($type, $color) {
+  .text-color-#{$type} {
+    color: $color;
+  }
+}
+
+@mixin border-color($type, $color) {
+  .border-color-#{$type} {
+    border-color: $color;
+  }
+}
+
+@mixin form-question {
+  .form-question {
+    text-transform: uppercase;
+    font-weight: 700;
+
+    & > span {
+      @include gradient-text;
+    }
+  }
+}
+
+@mixin row {
+  .row {
+    width: 100%;
+    display: flex;
+    // align-items: center;
+    gap: 1rem;
+  }
+}
+
+@mixin ellipse-text {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-wrap: nowrap;
+}
