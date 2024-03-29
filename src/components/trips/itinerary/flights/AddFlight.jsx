@@ -182,7 +182,7 @@ export default function AddFlight({ mode, onClose }) {
             onChange: airportFromChangeHandler,
             onBlur: airportFromBlurHandler,
             onFocus: airportFromFocusHandler,
-            placeholder: airportFromIsFocused ? "" : "AIRPORT (e.g. YYZ)",
+            placeholder: airportFromIsFocused ? "" : "AIRPORT CODE (e.g. YYZ)",
           }}
           isFocused={airportFromIsFocused}
           errorMsg={airportFromHasError && "Invalid Input"}
@@ -237,7 +237,7 @@ export default function AddFlight({ mode, onClose }) {
             onChange: airportToChangeHandler,
             onBlur: airportToBlurHandler,
             onFocus: airportToFocusHandler,
-            placeholder: airportToIsFocused ? "" : "AIRPORT (e.g. HKG)",
+            placeholder: airportToIsFocused ? "" : "AIRPORT CODE (e.g. HKG)",
           }}
           isFocused={airportToIsFocused}
           errorMsg={airportToHasError && "Invalid Input"}

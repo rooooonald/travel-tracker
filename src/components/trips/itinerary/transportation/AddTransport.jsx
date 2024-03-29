@@ -139,7 +139,7 @@ export default function AddTransport({ placeId, onClose }) {
             onChange: fromChangeHandler,
             onBlur: fromBlurHandler,
             onFocus: fromFocusHandler,
-            placeholder: fromIsFocused ? "" : "FROM",
+            placeholder: fromIsFocused ? "" : "e.g. Shinjuku Stn.",
           }}
           isFocused={fromIsFocused}
           errorMsg={fromHasError && "Invalid Input"}
@@ -175,7 +175,7 @@ export default function AddTransport({ placeId, onClose }) {
             onChange: toChangeHandler,
             onBlur: toBlurHandler,
             onFocus: toFocusHandler,
-            placeholder: toIsFocused ? "" : "TO",
+            placeholder: toIsFocused ? "" : "e.g. Shibuya Stn.",
           }}
           isFocused={toIsFocused}
           errorMsg={toHasError && "Invalid Input"}
