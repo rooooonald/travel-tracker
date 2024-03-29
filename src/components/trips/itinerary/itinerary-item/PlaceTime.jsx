@@ -47,12 +47,10 @@ export default function PlaceTime({ category, arrivalTime, stayTime }) {
             >
               {stayTime >= 60
                 ? `${Math.floor(stayTime / 60)} hr${
-                    Math.floor(stayTime / 60) !== 1 && "s"
+                    Math.floor(stayTime / 60) === 1 ? "" : "s"
                   }`
                 : ""}{" "}
-              {stayTime % 60 !== 0
-                ? `${stayTime % 60} min${stayTime % 60 !== 1 && "s"}`
-                : ""}
+              {stayTime % 60 !== 0 ? `${stayTime % 60} mins` : ""}
             </p>
           </m.div>
         )}
