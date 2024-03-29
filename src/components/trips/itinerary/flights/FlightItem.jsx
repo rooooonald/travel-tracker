@@ -54,7 +54,7 @@ export default function FlightItem({ mode, flight, index, onAdd }) {
   return (
     <div
       className={`${styles.wrapper} ${
-        isPending ? styles.isPending : undefined
+        isPending ? styles["is-pending"] : undefined
       }`}
     >
       <div className={styles.index}>
