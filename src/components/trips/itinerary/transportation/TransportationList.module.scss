@@ -1,17 +1,19 @@
 @import "/src/styles/mixin.scss";
 @import "/src/styles/variables.scss";
 
+@include horizontal-scrollbar-control;
+
 .wrapper {
   display: flex;
   flex-wrap: nowrap;
   justify-content: flex-start;
   gap: 1rem;
+  position: relative;
 
-  overflow-x: auto;
-  @include hide-horizonatal-scrollbar;
+  overflow-x: hidden;
 }
 
-.add {
+.add-btn {
   min-width: 50px;
   height: 100%;
 
@@ -22,8 +24,6 @@
   border-radius: 1rem;
   color: $third-color;
   background-color: transparent;
-
-  overflow: visible;
 
   opacity: 0.3;
   transition: opacity 0.5s;

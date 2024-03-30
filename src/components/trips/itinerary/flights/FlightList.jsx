@@ -1,4 +1,5 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
+import useHorizontalScroll from "../../../../hooks/use-horizontal-scroll";
 
 import { ItineraryContext } from "../../../../store/itinerary-context";
 
@@ -10,9 +11,14 @@ import styles from "./FlightList.module.scss";
 import { FaPlus } from "react-icons/fa6";
 import { MdFlightLand, MdFlightTakeoff } from "react-icons/md";
 import { AnimatePresence } from "framer-motion";
+import { GeneralIcon } from "../../../../styles/icons";
 
 export default function FlightList({ mode }) {
   const [isAdding, setIsAdding] = useState(false);
+  const listRef = useRef();
+
+  const { canScrollLeft, canScrollRight, scrollLeft, scrollRight } =
+    useHorizontalScroll(listRef, 200);
 
   const { trip } = useContext(ItineraryContext);
   const flights = mode === "depart" ? trip.flightsDepart : trip.flightsReturn;
@@ -29,7 +35,14 @@ export default function FlightList({ mode }) {
   return (
     <div className={styles.wrapper}>
       <div className={styles["flight-icon-container"]}>{icon}</div>
-      <div className={styles.list}>
+      <div className={styles.list} ref={listRef}>
+        <button
+          className={styles["scroll-left-btn"]}
+          onClick={scrollLeft}
+          style={{ visibility: canScrollLeft ? "visible" : "hidden" }}
+        >
+          <GeneralIcon.Left />
+        </button>
         {flights &&
           sortedFlightList.map((flight, i) => (
             <FlightItem
@@ -42,6 +55,13 @@ export default function FlightList({ mode }) {
         {(!flights || flights.length === 0) && (
           <FlightItem onAdd={() => setIsAdding(true)} />
         )}
+        <button
+          className={styles["scroll-right-btn"]}
+          onClick={scrollRight}
+          style={{ visibility: canScrollRight ? "visible" : "hidden" }}
+        >
+          <GeneralIcon.Right />
+        </button>
       </div>
 
       {flights && flights.length > 0 && (
