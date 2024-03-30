@@ -7,7 +7,7 @@
   justify-content: flex-start;
   gap: 1rem;
 
-  overflow-x: scroll;
+  overflow-x: auto;
   @include hide-horizonatal-scrollbar;
 }
 

@@ -43,7 +43,7 @@
   flex-wrap: nowrap;
   justify-content: flex-start;
 
-  overflow-x: scroll;
+  overflow-x: auto;
   @include hide-horizonatal-scrollbar;
 }
 
