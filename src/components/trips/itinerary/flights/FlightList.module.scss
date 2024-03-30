@@ -49,6 +49,14 @@
   // overflow-x: hidden;
   overflow: auto;
   scrollbar-width: none;
+
+  @include horizontal-scrollbar-control;
+  &:hover {
+    .scroll-right-btn,
+    .scroll-left-btn {
+      opacity: 1;
+    }
+  }
 }
 
 .add {
