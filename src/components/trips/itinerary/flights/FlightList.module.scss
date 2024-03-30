@@ -46,7 +46,9 @@
   flex-wrap: nowrap;
   justify-content: flex-start;
 
-  overflow-x: hidden;
+  // overflow-x: hidden;
+  overflow: auto;
+  scrollbar-width: none;
 }
 
 .add {

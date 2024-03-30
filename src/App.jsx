@@ -5,6 +5,8 @@ import ItineraryPage from "./pages/Itinerary";
 import RootLayout from "./pages/RootLayout";
 import TripsPage from "./pages/Trips";
 import HomePage from "./pages/Home";
+import ItineraryByDay from "./components/trips/itinerary/ItineraryByDay";
+import CostPage from "./pages/Cost";
 
 const router = createBrowserRouter([
   {
@@ -17,7 +19,20 @@ const router = createBrowserRouter([
         path: "/trips/add",
         element: <AddTripPage />,
       },
-      { path: "/trips/:tripId", element: <ItineraryPage /> },
+      {
+        path: "/trips/:tripId",
+        element: <ItineraryPage />,
+        children: [
+          {
+            index: true,
+            element: <ItineraryByDay />,
+          },
+          {
+            path: "/trips/:tripId/cost",
+            element: <CostPage />,
+          },
+        ],
+      },
     ],
   },
 ]);

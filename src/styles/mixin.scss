@@ -146,12 +146,13 @@
     color: $third-color;
     background-color: $secondary-color;
 
-    transition: scale 0.5s;
+    opacity: 0;
+    transition: scale 0.5s, opacity 0.5s;
     transform: translateY(-50%);
     z-index: 5;
 
     &:hover {
-      scale: 1.5;
+      scale: 1.2;
     }
   }
 

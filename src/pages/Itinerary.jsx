@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import { ItineraryContext } from "../store/itinerary-context";
 import EditModeContextProvider, {
   EditModeContext,
@@ -9,7 +9,7 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../lib/db/config";
 
 import ItineraryNav from "../components/trips/itinerary/ItineraryNav";
-import ItineraryByDay from "../components/trips/itinerary/ItineraryByDay";
+// import ItineraryByDay from "../components/trips/itinerary/ItineraryByDay";
 import AddItineraryItem from "../components/trips/itinerary/itinerary-item/AddItineraryItem";
 import Modal from "../components/ui/Modal";
 import PageLoader from "../components/ui/PageLoader";
@@ -50,7 +50,10 @@ export default function ItineraryPage() {
       <div className={styles.wrapper}>
         <ItineraryNav onAddItem={() => setIsAdding(true)} />
 
-        <ItineraryByDay onAddItem={() => setIsAdding(true)} />
+        <div className={styles.content}>
+          <Outlet context={[isAdding, setIsAdding]} />
+        </div>
+        {/* <ItineraryByDay onAddItem={() => setIsAdding(true)} /> */}
 
         <AnimatePresence>
           {isAdding && (

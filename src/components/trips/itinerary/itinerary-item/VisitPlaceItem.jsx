@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { ItineraryContext } from "../../../../store/itinerary-context";
 import { EditModeContext } from "../../../../store/edit-mode-context";
 import { useMutation } from "@tanstack/react-query";
+import { useOutletContext } from "react-router-dom";
 
 import { removeItineraryItem } from "../../../../lib/db/delete";
 
@@ -9,14 +10,14 @@ import TransportationList from "../transportation/TransportationList";
 import PlaceTime from "./PlaceTime";
 import BlankBox from "../../../ui/BlankBox";
 import AddressLink from "../../../ui/AddressLink";
-import PageLoader from "../../../ui/PageLoader";
 import ButtonRemove from "../../../ui/buttons/ButtonRemove";
 
 import styles from "./VisitPlaceItem.module.scss";
 
-export default function VisitPlaceItem({ place, onAdd }) {
+export default function VisitPlaceItem({ place }) {
   const { trip, currDay } = useContext(ItineraryContext);
   const { isEditMode } = useContext(EditModeContext);
+  const [isAdding, setIsAdding] = useOutletContext();
 
   const { mutate, isPending } = useMutation({
     mutationFn: removeItineraryItem,
@@ -26,7 +27,7 @@ export default function VisitPlaceItem({ place, onAdd }) {
     return (
       <div className={styles.wrapper}>
         <PlaceTime category="sightseeing" />
-        <BlankBox className={styles.blank} onClick={onAdd}>
+        <BlankBox className={styles.blank} onClick={setIsAdding}>
           <p>FILL UP YOUR ITINERARY</p>
         </BlankBox>
       </div>

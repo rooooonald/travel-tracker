@@ -40,9 +40,7 @@ export default function ItineraryByDay({ onAddItem }) {
           <VisitPlaceItem key={i} place={place} />
         ))}
 
-      {visitPlaces && visitPlaces.length === 0 && (
-        <VisitPlaceItem onAdd={onAddItem} />
-      )}
+      {visitPlaces && visitPlaces.length === 0 && <VisitPlaceItem />}
 
       {accommodation && <Accommodation accommodation={accommodation} />}
       {!accommodation && currDay !== finalDay && <Accommodation />}
