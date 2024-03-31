@@ -6,10 +6,10 @@ import { removeTrip } from "../../lib/db/delete";
 
 import ButtonRemove from "../ui/buttons/ButtonRemove";
 import dateTimeFormatter from "../../lib/datetime-formatter";
+import countryNameConverter from "../../lib/country-name-converter";
 
 import styles from "./TripItem.module.scss";
 import { LazyMotion, domAnimation, m } from "framer-motion";
-import countryNameConverter from "../../lib/country-name-converter";
 
 export default function TripItem({ trip }) {
   const navigate = useNavigate();

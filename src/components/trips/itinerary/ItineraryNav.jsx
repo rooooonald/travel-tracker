@@ -4,13 +4,13 @@ import { EditModeContext } from "../../../store/edit-mode-context";
 
 import ButtonPrimary from "../../ui/buttons/ButtonPrimary";
 import dateTimeFormatter from "../../../lib/datetime-formatter";
+import countryNameConverter from "../../../lib/country-name-converter";
 
 import styles from "./ItineraryNav.module.scss";
 import { GeneralIcon } from "../../../styles/icons";
 import { LazyMotion, domAnimation, m } from "framer-motion";
 import { MdOutlineAddLocation, MdOutlineEditNote } from "react-icons/md";
 import { TiTick } from "react-icons/ti";
-import countryNameConverter from "../../../lib/country-name-converter";
 
 export default function ItineraryNav({ onAddItem }) {
   const { trip, currDay, finalDay, currDayItinerary, setDay } =
@@ -46,9 +46,7 @@ export default function ItineraryNav({ onAddItem }) {
         <div
           className={styles.img}
           style={{
-            backgroundImage: `url("/images/countries/${
-              trip.countries[Math.floor(Math.random() * trip.countries.length)]
-            }.webp")`,
+            backgroundImage: `url("/images/countries/${trip.countries[0]}.webp")`,
           }}
         >
           <h1>{trip.title}</h1>
