@@ -144,7 +144,8 @@
     border-radius: 50%;
     border: 3px solid $third-color;
     color: $third-color;
-    background-color: $secondary-color;
+    background-color: rgba(26, 80, 145, 0.5);
+    backdrop-filter: blur(10px);
 
     opacity: 0;
     transition: scale 0.5s, opacity 0.5s;
@@ -153,6 +154,11 @@
 
     &:hover {
       scale: 1.2;
+    }
+
+    &:active {
+      color: $secondary-color;
+      background-color: $third-color;
     }
   }
 

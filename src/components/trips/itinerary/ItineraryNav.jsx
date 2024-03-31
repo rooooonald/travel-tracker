@@ -10,6 +10,7 @@ import { GeneralIcon } from "../../../styles/icons";
 import { LazyMotion, domAnimation, m } from "framer-motion";
 import { MdOutlineAddLocation, MdOutlineEditNote } from "react-icons/md";
 import { TiTick } from "react-icons/ti";
+import countryNameConverter from "../../../lib/country-name-converter";
 
 export default function ItineraryNav({ onAddItem }) {
   const { trip, currDay, finalDay, currDayItinerary, setDay } =
@@ -31,6 +32,10 @@ export default function ItineraryNav({ onAddItem }) {
     itineraryIsEmpty && resetEditMode();
   }, [itineraryIsEmpty]);
 
+  useEffect(() => {
+    currDayItinerary && resetEditMode();
+  }, [currDayItinerary]);
+
   return (
     <LazyMotion features={domAnimation}>
       <m.aside
@@ -41,14 +46,16 @@ export default function ItineraryNav({ onAddItem }) {
         <div
           className={styles.img}
           style={{
-            backgroundImage: `url("/images/countries/${trip.countries[0]}.webp")`,
+            backgroundImage: `url("/images/countries/${
+              trip.countries[Math.floor(Math.random() * trip.countries.length)]
+            }.webp")`,
           }}
         >
           <h1>{trip.title}</h1>
 
           {trip.cities.map((city, i) => (
             <p key={i} className={styles.cities}>
-              ✈ {city.name}
+              ✈ {city.name}, {countryNameConverter(city.country)}
             </p>
           ))}
 

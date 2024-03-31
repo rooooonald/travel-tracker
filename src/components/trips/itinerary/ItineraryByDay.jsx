@@ -36,8 +36,8 @@ export default function ItineraryByDay({ onAddItem }) {
 
       {visitPlaces &&
         visitPlaces.length !== 0 &&
-        sortedPlaceList.map((place, i) => (
-          <VisitPlaceItem key={i} place={place} />
+        sortedPlaceList.map((place) => (
+          <VisitPlaceItem key={place.placeId} place={place} />
         ))}
 
       {visitPlaces && visitPlaces.length === 0 && <VisitPlaceItem />}

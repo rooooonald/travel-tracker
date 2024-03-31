@@ -9,6 +9,7 @@ import dateTimeFormatter from "../../lib/datetime-formatter";
 
 import styles from "./TripItem.module.scss";
 import { LazyMotion, domAnimation, m } from "framer-motion";
+import countryNameConverter from "../../lib/country-name-converter";
 
 export default function TripItem({ trip }) {
   const navigate = useNavigate();
@@ -51,13 +52,17 @@ export default function TripItem({ trip }) {
               timeZone: "UTC",
             })}
           </p>{" "}
-          <img src={`/images/countries/${trip.countries[0]}.webp`} />
+          <img
+            src={`/images/countries/${
+              trip.countries[Math.floor(Math.random() * trip.countries.length)]
+            }.webp`}
+          />
         </div>
 
         <div className={styles.content}>
           {trip.cities.map((city, i) => (
             <p key={i} className={styles.cities}>
-              ✈ {city.name}
+              ✈ {city.name}, {countryNameConverter(city.country)}
             </p>
           ))}
         </div>

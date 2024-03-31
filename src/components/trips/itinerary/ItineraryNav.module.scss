@@ -32,12 +32,16 @@
     margin-left: 1rem;
 
     font-size: 2rem;
+    word-break: break-word;
   }
 
   .cities {
+    width: 90%;
     margin-left: 1rem;
     font-weight: 700;
     text-transform: capitalize;
+
+    @include ellipse-text;
   }
 
   .trip-date {

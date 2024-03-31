@@ -27,9 +27,9 @@ export default function TransportationList({ transportTo, category, placeId }) {
         <GeneralIcon.Left />
       </button>
       {transportTo &&
-        transportTo.map((transportation, i) => (
+        transportTo.map((transportation) => (
           <TransportationItem
-            key={i}
+            key={transportation.transitId}
             placeId={placeId}
             transportation={transportation}
             category={category}
