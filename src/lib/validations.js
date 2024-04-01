@@ -32,3 +32,15 @@ export const checkFlightNum = (number) => {
 
   return true;
 };
+
+export const checkAmount = (number) => {
+  if (!checkEmpty(number)) {
+    return false;
+  }
+
+  if (+number <= 0) {
+    return false;
+  }
+
+  return true;
+};

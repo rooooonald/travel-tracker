@@ -1,5 +1,4 @@
 import { createContext, useContext, useState } from "react";
-import { EditModeContext } from "./edit-mode-context";
 
 export const ItineraryContext = createContext({
   currDay: 1,
@@ -14,15 +13,12 @@ export default function ItineraryContextProvider({ children }) {
   const [currDay, setCurrDay] = useState(1);
   const [trip, setTrip] = useState();
 
-  const { resetEditMode } = useContext(EditModeContext);
-
   const setTripHandler = (trip) => {
     setTrip(trip);
   };
 
   const setDayHandler = (change) => {
     setCurrDay((prev) => prev + change);
-    resetEditMode();
   };
 
   const resetDayHandler = () => {

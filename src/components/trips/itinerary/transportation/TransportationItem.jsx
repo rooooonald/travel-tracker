@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import { ItineraryContext } from "../../../../store/itinerary-context";
-import { EditModeContext } from "../../../../store/edit-mode-context";
 import { useMutation } from "@tanstack/react-query";
 
 import { removeTransitMethod } from "../../../../lib/db/delete";
@@ -12,7 +11,6 @@ import currencyFormatter from "../../../../lib/currency-formatter";
 import styles from "./TransportationItem.module.scss";
 import { TransportIcon } from "../../../../styles/icons";
 import { GiBottomRight3DArrow } from "react-icons/gi";
-import PageLoader from "../../../ui/PageLoader";
 
 export default function TransportationItem({
   transportation,
@@ -21,7 +19,6 @@ export default function TransportationItem({
   onAdd,
 }) {
   const { trip, currDay } = useContext(ItineraryContext);
-  const { isEditMode } = useContext(EditModeContext);
 
   const { mutate, isPending } = useMutation({
     mutationFn: removeTransitMethod,
@@ -101,12 +98,10 @@ export default function TransportationItem({
         <GiBottomRight3DArrow className={styles.arrow} />
       </div>
 
-      {isEditMode && (
-        <ButtonRemove
-          onClick={removeTransitHandler}
-          className={styles["remove-btn"]}
-        />
-      )}
+      <ButtonRemove
+        onClick={removeTransitHandler}
+        className={styles["remove-btn"]}
+      />
     </div>
   );
 }

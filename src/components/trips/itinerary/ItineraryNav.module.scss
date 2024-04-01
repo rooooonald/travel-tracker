@@ -81,6 +81,10 @@
 
     text-transform: uppercase;
 
+    & > p {
+      font-weight: 700;
+    }
+
     div {
       width: 150px;
       height: 150px;
@@ -112,17 +116,29 @@
   bottom: 0;
 
   display: flex;
-  justify-content: center;
-  gap: 1rem;
+  justify-content: flex-start;
+  gap: 0.5rem;
 
-  transform: translateY(50%);
+  transform: translate(1rem, 50%);
 
   button {
-    width: 50px;
-
     gap: 0.25rem;
 
-    font-size: 1.75rem;
     box-shadow: 0 5px 5px rgba(0, 0, 0, 0.5);
+
+    &:not(.switch-button) {
+      width: 50px;
+      height: 50px;
+
+      background-color: $third-color;
+      font-size: 1.75rem;
+      border-radius: 50%;
+    }
+  }
+
+  .switch-button {
+    width: 150px;
+    padding: 1rem;
+    font-size: 0.8rem;
   }
 }

@@ -7,12 +7,15 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/db";
 
 import ItineraryContextProvider from "./store/itinerary-context.jsx";
+import CurrencyContextProvider from "./store/currency-context.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <ItineraryContextProvider>
-        <App />
+        <CurrencyContextProvider>
+          <App />
+        </CurrencyContextProvider>
       </ItineraryContextProvider>
     </QueryClientProvider>
   </React.StrictMode>

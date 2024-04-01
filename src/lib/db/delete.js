@@ -18,9 +18,25 @@ export const removeItineraryItem = async ({
   );
 
   const updatedDayItinerary = updatedItinerary[currentDayItineraryIndex];
+  const currentVisitPlaces = updatedItinerary[
+    currentDayItineraryIndex
+  ].visitPlaces.find((place) => place.placeId === placeId);
+
   updatedDayItinerary.visitPlaces = updatedDayItinerary.visitPlaces.filter(
     (place) => place.placeId !== placeId
   );
+
+  // Clear Expense
+  if (
+    currentVisitPlaces.transportTo &&
+    currentVisitPlaces.transportTo.length > 0
+  ) {
+    for (let transit of currentVisitPlaces.transportTo) {
+      updatedDayItinerary.expenses = updatedDayItinerary.expenses.filter(
+        (expense) => expense.expenseId !== transit.transitId
+      );
+    }
+  }
 
   const tripRef = doc(db, "trips", tripId);
   await updateDoc(tripRef, { itinerary: updatedItinerary });
@@ -55,6 +71,7 @@ export const removeAccommodation = async ({
   tripId,
   fullItinerary,
   currDay,
+  accommodationId,
 }) => {
   const updatedItinerary = [...fullItinerary];
 
@@ -65,10 +82,14 @@ export const removeAccommodation = async ({
   const updatedDayItinerary = updatedItinerary[currentDayItineraryIndex];
   updatedDayItinerary.accommodation = null;
 
-  setTimeout(async () => {
-    const tripRef = doc(db, "trips", tripId);
-    await updateDoc(tripRef, { itinerary: updatedItinerary });
-  }, 10000);
+  const tripRef = doc(db, "trips", tripId);
+  await updateDoc(tripRef, { itinerary: updatedItinerary });
+  await removeExpense({
+    tripId,
+    fullItinerary,
+    currDay,
+    expenseId: accommodationId,
+  });
 };
 
 export const removeTransitMethod = async ({
@@ -89,6 +110,33 @@ export const removeTransitMethod = async ({
 
   updatedVisitPlace.transportTo = updatedVisitPlace.transportTo.filter(
     (transit) => transit.transitId !== transitId
+  );
+
+  const tripRef = doc(db, "trips", tripId);
+  await updateDoc(tripRef, { itinerary: updatedItinerary });
+  await removeExpense({
+    tripId,
+    fullItinerary,
+    currDay,
+    expenseId: transitId,
+  });
+};
+
+export const removeExpense = async ({
+  tripId,
+  fullItinerary,
+  currDay,
+  expenseId,
+}) => {
+  const updatedItinerary = [...fullItinerary];
+
+  const currentDayItineraryIndex = updatedItinerary.findIndex(
+    (itinerary) => itinerary.day === currDay
+  );
+
+  const updatedDayItinerary = updatedItinerary[currentDayItineraryIndex];
+  updatedDayItinerary.expenses = updatedDayItinerary.expenses.filter(
+    (expense) => expense.expenseId !== expenseId
   );
 
   const tripRef = doc(db, "trips", tripId);

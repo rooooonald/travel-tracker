@@ -170,3 +170,18 @@
     left: 20px;
   }
 }
+
+@mixin remove-btn($width, $height, $initialOpacity) {
+  .remove-btn {
+    width: #{$width};
+    height: #{$height};
+
+    opacity: #{$initialOpacity};
+    transition: opacity 0.5s;
+    visibility: hidden;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}

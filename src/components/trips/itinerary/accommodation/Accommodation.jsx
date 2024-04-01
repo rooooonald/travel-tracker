@@ -10,7 +10,7 @@ import AddAccommodation from "./AddAccommodation";
 import Modal from "../../../ui/Modal";
 import BlankBox from "../../../ui/BlankBox";
 import ButtonRemove from "../../../ui/buttons/ButtonRemove";
-import currencyFormatter from "../../../../lib/currency-formatter";
+// import currencyFormatter from "../../../../lib/currency-formatter";
 
 import styles from "./Accommodation.module.scss";
 import { AnimatePresence } from "framer-motion";
@@ -19,7 +19,7 @@ export default function Accommodation({ accommodation }) {
   const [isAdding, setIsAdding] = useState(false);
 
   const { trip, currDay } = useContext(ItineraryContext);
-  const { isEditMode } = useContext(EditModeContext);
+  // const { isEditMode } = useContext(EditModeContext);
   const { mutate, isPending } = useMutation({
     mutationFn: removeAccommodation,
   });
@@ -42,7 +42,12 @@ export default function Accommodation({ accommodation }) {
   }
 
   const removeAccommodationHandler = () => {
-    mutate({ tripId: trip.tripId, fullItinerary: trip.itinerary, currDay });
+    mutate({
+      tripId: trip.tripId,
+      fullItinerary: trip.itinerary,
+      currDay,
+      accommodationId: accommodation.accommodationId,
+    });
 
     // await removeAccommodation(trip.tripId, trip.itinerary, currDay);
   };
@@ -69,15 +74,14 @@ export default function Accommodation({ accommodation }) {
         )}
       </div>
       <div className={styles.price}>
-        <p>{currencyFormatter(pricePerNight)}</p>
+        <p>{pricePerNight.toFixed(2)}</p>
         <p>/ Night</p>
       </div>
-      {isEditMode && (
-        <ButtonRemove
-          onClick={removeAccommodationHandler}
-          className={styles["remove-btn"]}
-        />
-      )}
+
+      <ButtonRemove
+        onClick={removeAccommodationHandler}
+        className={styles["remove-btn"]}
+      />
     </div>
   );
 }

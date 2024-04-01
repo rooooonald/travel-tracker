@@ -1,13 +1,11 @@
 import { useContext } from "react";
 import { ItineraryContext } from "../../../../store/itinerary-context";
-import { EditModeContext } from "../../../../store/edit-mode-context";
 import { useMutation } from "@tanstack/react-query";
 
 import { removeFlight } from "../../../../lib/db/delete";
 
 import BlankBox from "../../../ui/BlankBox";
 import ButtonRemove from "../../../ui/buttons/ButtonRemove";
-import PageLoader from "../../../ui/PageLoader";
 import dateTimeFormatter from "../../../../lib/datetime-formatter";
 
 import styles from "./FlightItem.module.scss";
@@ -23,7 +21,7 @@ const dateTimeOptions = {
 
 export default function FlightItem({ mode, flight, index, onAdd }) {
   const { trip } = useContext(ItineraryContext);
-  const { isEditMode } = useContext(EditModeContext);
+  
   const { mutate, isPending } = useMutation({ mutationFn: removeFlight });
 
   if (!flight) {
@@ -75,12 +73,11 @@ export default function FlightItem({ mode, flight, index, onAdd }) {
           {dateTimeFormatter(to.arrivalTime, dateTimeOptions)}
         </p>
       </div>
-      {isEditMode && (
-        <ButtonRemove
-          onClick={removeFlightHandler}
-          className={styles["remove-btn"]}
-        />
-      )}
+
+      <ButtonRemove
+        onClick={removeFlightHandler}
+        className={styles["remove-btn"]}
+      />
     </div>
   );
 }

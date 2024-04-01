@@ -8,7 +8,7 @@ import FlightList from "./flights/FlightList";
 import styles from "./ItineraryByDay.module.scss";
 import { WiSunrise } from "react-icons/wi";
 
-export default function ItineraryByDay({ onAddItem }) {
+export default function ItineraryByDay() {
   const { trip, currDay, currDayItinerary } = useContext(ItineraryContext);
   const { visitPlaces, accommodation } = currDayItinerary;
   const finalDay = trip.itinerary.length;

@@ -5,8 +5,8 @@ import ItineraryPage from "./pages/Itinerary";
 import RootLayout from "./pages/RootLayout";
 import TripsPage from "./pages/Trips";
 import HomePage from "./pages/Home";
+import ExpensePage from "./pages/Expense";
 import ItineraryByDay from "./components/trips/itinerary/ItineraryByDay";
-import CostPage from "./pages/Cost";
 
 const router = createBrowserRouter([
   {
@@ -28,8 +28,8 @@ const router = createBrowserRouter([
             element: <ItineraryByDay />,
           },
           {
-            path: "/trips/:tripId/cost",
-            element: <CostPage />,
+            path: "/trips/:tripId/expense",
+            element: <ExpensePage />,
           },
         ],
       },

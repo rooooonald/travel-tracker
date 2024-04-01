@@ -29,7 +29,9 @@ export default function AddTransport({ placeId, onClose }) {
   const { trip, currDay } = useContext(ItineraryContext);
   const { mutate, isPending } = useMutation({
     mutationFn: addTransitMethod,
-    onSuccess: () => onClose(),
+    onSuccess: () => {
+      onClose();
+    },
   });
 
   const {

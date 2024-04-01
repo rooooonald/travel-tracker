@@ -1,0 +1,24 @@
+@import "/src/styles/mixin.scss";
+@import "/src/styles/variables.scss";
+
+.wrapper {
+  padding: 0.5rem 1rem 0.5rem 0;
+
+  display: flex;
+  justify-content: space-between;
+
+  &:hover {
+    .remove-btn {
+      visibility: visible;
+    }
+  }
+}
+
+.description {
+  display: flex;
+  flex: row;
+  align-items: center;
+  gap: 1rem;
+
+  @include remove-btn("20px", "20px", 0.3);
+}

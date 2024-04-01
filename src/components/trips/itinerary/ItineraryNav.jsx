@@ -1,6 +1,6 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ItineraryContext } from "../../../store/itinerary-context";
-import { EditModeContext } from "../../../store/edit-mode-context";
 
 import ButtonPrimary from "../../ui/buttons/ButtonPrimary";
 import dateTimeFormatter from "../../../lib/datetime-formatter";
@@ -9,32 +9,17 @@ import countryNameConverter from "../../../lib/country-name-converter";
 import styles from "./ItineraryNav.module.scss";
 import { GeneralIcon } from "../../../styles/icons";
 import { LazyMotion, domAnimation, m } from "framer-motion";
-import { MdOutlineAddLocation, MdOutlineEditNote } from "react-icons/md";
-import { TiTick } from "react-icons/ti";
+import { MdAddChart, MdOutlineAddLocation } from "react-icons/md";
+import { HiSwitchHorizontal } from "react-icons/hi";
 
-export default function ItineraryNav({ onAddItem }) {
-  const { trip, currDay, finalDay, currDayItinerary, setDay } =
+export default function ItineraryNav({ onAddItem, onAddExpense }) {
+  const { pathname } = useLocation();
+  const isExpensePage = pathname.endsWith("/expense");
+
+  const navigate = useNavigate();
+
+  const { trip, currDay, currDayItinerary, setDay } =
     useContext(ItineraryContext);
-  const { isEditMode, toggleEditMode, resetEditMode } =
-    useContext(EditModeContext);
-
-  const itineraryIsEmpty =
-    currDayItinerary.visitPlaces.length === 0 &&
-    (currDay === 1
-      ? !trip.flightsDepart || trip.flightsDepart?.length === 0
-      : true) &&
-    (currDay === finalDay
-      ? !trip.flightsReturn || trip.flightsReturn?.length === 0
-      : true) &&
-    (currDay !== finalDay ? !currDayItinerary.accommodation : true);
-
-  useEffect(() => {
-    itineraryIsEmpty && resetEditMode();
-  }, [itineraryIsEmpty]);
-
-  useEffect(() => {
-    currDayItinerary && resetEditMode();
-  }, [currDayItinerary]);
 
   return (
     <LazyMotion features={domAnimation}>
@@ -104,16 +89,35 @@ export default function ItineraryNav({ onAddItem }) {
           </button>
         </div>
 
-        <div className={styles["btn-group"]}>
-          <ButtonPrimary onClick={onAddItem}>
-            <MdOutlineAddLocation />
-          </ButtonPrimary>
-          {!itineraryIsEmpty && (
-            <ButtonPrimary onClick={toggleEditMode}>
-              {isEditMode ? <TiTick /> : <MdOutlineEditNote />}
+        {!isExpensePage && (
+          <div className={styles["btn-group"]}>
+            <ButtonPrimary
+              onClick={() => navigate(`/trips/${trip.tripId}/expense`)}
+              className={styles["switch-button"]}
+            >
+              <HiSwitchHorizontal />
+              TO EXPENSE
             </ButtonPrimary>
-          )}
-        </div>
+            <button onClick={onAddItem}>
+              <MdOutlineAddLocation />
+            </button>
+          </div>
+        )}
+        {isExpensePage && (
+          <div className={styles["btn-group"]}>
+            <ButtonPrimary
+              onClick={() => navigate(`/trips/${trip.tripId}`)}
+              className={styles["switch-button"]}
+            >
+              <HiSwitchHorizontal />
+              TO ITINERARY
+            </ButtonPrimary>
+
+            <button onClick={onAddExpense}>
+              <MdAddChart />
+            </button>
+          </div>
+        )}
       </m.aside>
     </LazyMotion>
   );

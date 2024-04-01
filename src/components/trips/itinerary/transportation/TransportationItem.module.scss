@@ -19,6 +19,12 @@
   overflow: hidden;
 
   @include pending;
+
+  &:hover {
+    .remove-btn {
+      visibility: visible;
+    }
+  }
 }
 
 .blank {
@@ -73,9 +79,8 @@
   }
 }
 
+@include remove-btn("20px", "20px", 0.3);
 .remove-btn {
-  width: 20px;
-  height: 20px;
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;

@@ -1,22 +1,21 @@
 import styles from "./PlaceTime.module.scss";
 import { LazyMotion, domAnimation, m } from "framer-motion";
-import { FaShoppingBag, FaBinoculars } from "react-icons/fa";
-import { MdLocalDining } from "react-icons/md";
+import ItineraryIcon from "../../../../styles/icons/ItineraryIcons";
 
 export default function PlaceTime({ category, arrivalTime, stayTime }) {
   let icon;
   switch (category) {
     case "shopping":
-      icon = <FaShoppingBag />;
+      icon = <ItineraryIcon.Shopping />;
       break;
     case "dining":
-      icon = <MdLocalDining />;
+      icon = <ItineraryIcon.Dining />;
       break;
     case "sightseeing":
-      icon = <FaBinoculars />;
+      icon = <ItineraryIcon.Sightseeing />;
       break;
     default:
-      icon = <FaBinoculars />;
+      icon = <ItineraryIcon.Sightseeing />;
   }
   return (
     <LazyMotion features={domAnimation}>

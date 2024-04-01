@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import { ItineraryContext } from "../../../../store/itinerary-context";
-import { EditModeContext } from "../../../../store/edit-mode-context";
 import { useMutation } from "@tanstack/react-query";
 import { useOutletContext } from "react-router-dom";
 
@@ -16,8 +15,7 @@ import styles from "./VisitPlaceItem.module.scss";
 
 export default function VisitPlaceItem({ place }) {
   const { trip, currDay } = useContext(ItineraryContext);
-  const { isEditMode } = useContext(EditModeContext);
-  const [isAdding, setIsAdding] = useOutletContext();
+  const { setIsAddingItem } = useOutletContext();
 
   const { mutate, isPending } = useMutation({
     mutationFn: removeItineraryItem,
@@ -27,7 +25,7 @@ export default function VisitPlaceItem({ place }) {
     return (
       <div className={styles.wrapper}>
         <PlaceTime category="sightseeing" />
-        <BlankBox className={styles.blank} onClick={setIsAdding}>
+        <BlankBox className={styles.blank} onClick={setIsAddingItem}>
           <p>FILL UP YOUR ITINERARY</p>
         </BlankBox>
       </div>
@@ -89,12 +87,8 @@ export default function VisitPlaceItem({ place }) {
           placeId={placeId}
         />
       </div>
-      {isEditMode && (
-        <ButtonRemove
-          onClick={removeHandler}
-          className={styles["remove-btn"]}
-        />
-      )}
+
+      <ButtonRemove onClick={removeHandler} className={styles["remove-btn"]} />
     </div>
   );
 }

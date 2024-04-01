@@ -1,16 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import { Outlet, useParams } from "react-router-dom";
 import { ItineraryContext } from "../store/itinerary-context";
-import EditModeContextProvider, {
-  EditModeContext,
-} from "../store/edit-mode-context";
+import { CurrencyContext } from "../store/currency-context";
 
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../lib/db/config";
 
 import ItineraryNav from "../components/trips/itinerary/ItineraryNav";
-// import ItineraryByDay from "../components/trips/itinerary/ItineraryByDay";
 import AddItineraryItem from "../components/trips/itinerary/itinerary-item/AddItineraryItem";
+import AddExpense from "../components/trips/expense/AddExpense";
 import Modal from "../components/ui/Modal";
 import PageLoader from "../components/ui/PageLoader";
 
@@ -21,10 +19,11 @@ export default function ItineraryPage() {
   const { tripId } = useParams();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [isAdding, setIsAdding] = useState(false);
+  const [isAddingItem, setIsAddingItem] = useState(false);
+  const [isAddingExpense, setIsAddingExpense] = useState(false);
 
   const { trip, setTrip, resetDay } = useContext(ItineraryContext);
-  const { toggleEditMode } = useContext(EditModeContext);
+  const { resetCurrency } = useContext(CurrencyContext);
 
   useEffect(() => {
     setIsLoading(true);
@@ -33,12 +32,12 @@ export default function ItineraryPage() {
         const retrievedTrip = { tripId, ...doc.data() };
 
         setTrip(retrievedTrip);
-        toggleEditMode();
         setIsLoading(false);
       }
     });
 
     resetDay();
+    resetCurrency();
   }, [tripId]);
 
   if (!trip || isLoading) {
@@ -46,23 +45,37 @@ export default function ItineraryPage() {
   }
 
   return (
-    <EditModeContextProvider>
-      <div className={styles.wrapper}>
-        <ItineraryNav onAddItem={() => setIsAdding(true)} />
+    <div className={styles.wrapper}>
+      <ItineraryNav
+        onAddItem={() => setIsAddingItem(true)}
+        onAddExpense={() => setIsAddingExpense(true)}
+      />
 
-        <div className={styles.content}>
-          <Outlet context={[isAdding, setIsAdding]} />
-        </div>
-        {/* <ItineraryByDay onAddItem={() => setIsAdding(true)} /> */}
-
-        <AnimatePresence>
-          {isAdding && (
-            <Modal title="ITINERARY" onClose={() => setIsAdding(false)}>
-              <AddItineraryItem onClose={() => setIsAdding(false)} />
-            </Modal>
-          )}
-        </AnimatePresence>
+      <div className={styles.content}>
+        <Outlet
+          context={{
+            isAddingItem,
+            setIsAddingItem,
+            isAddingExpense,
+            setIsAddingExpense,
+          }}
+        />
       </div>
-    </EditModeContextProvider>
+
+      <AnimatePresence>
+        {isAddingItem && (
+          <Modal title="ITINERARY" onClose={() => setIsAddingItem(false)}>
+            <AddItineraryItem onClose={() => setIsAddingItem(false)} />
+          </Modal>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {isAddingExpense && (
+          <Modal title="EXPENSE" onClose={() => setIsAddingExpense(false)}>
+            <AddExpense onClose={() => setIsAddingExpense(false)} />
+          </Modal>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
