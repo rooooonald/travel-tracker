@@ -7,7 +7,6 @@ import { addFlight } from "../../../../lib/db/save";
 
 import FormInput from "../../../ui/FormInput";
 import ButtonPrimary from "../../../ui/buttons/ButtonPrimary";
-import PageLoader from "../../../ui/PageLoader";
 import {
   checkDate,
   checkEmpty,

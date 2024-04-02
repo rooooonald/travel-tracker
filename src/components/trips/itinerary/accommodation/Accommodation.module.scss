@@ -73,8 +73,7 @@
   }
 }
 
-@include remove-btn("30px", "30px", 0.5);
-.remove-btn {
+@include remove-btn("30px", "30px", 0.5) {
   position: absolute;
   top: -1rem;
   right: -0.75rem;

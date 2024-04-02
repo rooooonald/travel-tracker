@@ -181,6 +181,8 @@
     opacity: #{$initialOpacity};
     transition: opacity 0.5s;
 
+    @content;
+
     &:hover {
       opacity: 1;
     }

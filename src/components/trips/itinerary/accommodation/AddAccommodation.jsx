@@ -141,25 +141,25 @@ export default function AddAccommodation({ onClose }) {
         />
       </div>
       <p className={styles["form-question"]}>
-        How many <span>days</span> are you staying there? What's the{" "}
+        How many <span>nights</span> are you staying? What's the{" "}
         <span>total price</span>?
       </p>
       <div className={styles.row}>
         <FormInput
           id="accommodation-stay-days"
-          label="DAYS"
+          label="NIGHTS"
           input={{
             type: "text",
             value: stayDays,
             onChange: stayDaysChangeHandler,
             onBlur: stayDaysBlurHandler,
             onFocus: stayDaysFocusHandler,
-            placeholder: stayDaysIsFocused ? "" : "DAYS",
+            placeholder: stayDaysIsFocused ? "" : "NIGHTS",
           }}
           isRequired={true}
           isFocused={stayDaysIsFocused}
           errorMsg={stayDaysHasError && "Invalid Input"}
-          className={styles["col-2"]}
+          className={styles["col-3"]}
         />
         <FormInput
           id="accommodation-price"

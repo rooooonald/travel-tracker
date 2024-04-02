@@ -1,5 +1,4 @@
 import { useContext, useState } from "react";
-import { EditModeContext } from "../../../../store/edit-mode-context";
 import { ItineraryContext } from "../../../../store/itinerary-context";
 import { useMutation } from "@tanstack/react-query";
 
@@ -10,7 +9,6 @@ import AddAccommodation from "./AddAccommodation";
 import Modal from "../../../ui/Modal";
 import BlankBox from "../../../ui/BlankBox";
 import ButtonRemove from "../../../ui/buttons/ButtonRemove";
-// import currencyFormatter from "../../../../lib/currency-formatter";
 
 import styles from "./Accommodation.module.scss";
 import { AnimatePresence } from "framer-motion";
@@ -19,7 +17,7 @@ export default function Accommodation({ accommodation }) {
   const [isAdding, setIsAdding] = useState(false);
 
   const { trip, currDay } = useContext(ItineraryContext);
-  // const { isEditMode } = useContext(EditModeContext);
+
   const { mutate, isPending } = useMutation({
     mutationFn: removeAccommodation,
   });

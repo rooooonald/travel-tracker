@@ -1,11 +1,4 @@
-import {
-  collection,
-  doc,
-  getDocs,
-  query,
-  onSnapshot,
-  getDoc,
-} from "firebase/firestore";
+import { collection, doc, getDocs, query, getDoc } from "firebase/firestore";
 import { db } from "./config";
 
 export const getAllTrips = async () => {

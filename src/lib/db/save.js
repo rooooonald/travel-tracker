@@ -10,6 +10,11 @@ import { getUpdatedDayItinerary, updateItineraryInDatabase } from ".";
 
 import { v4 as uuidv4 } from "uuid";
 
+/**
+ * Adds a new trip to the database.
+ * @param {object} trip - The trip object containing trip details.
+ * @returns {string} The ID of the newly added trip.
+ */
 export const addTripToDatebase = async (trip) => {
   const dateFromTimestamp = new Date(trip.dateFrom).getTime();
   const dateToTimestamp = new Date(trip.dateTo).getTime();
@@ -52,6 +57,14 @@ export const addTripToDatebase = async (trip) => {
   return docRef.id;
 };
 
+/**
+ * Adds an itinerary item to the specified day of a specified trip.
+ * @param {object} params - The parameters object.
+ * @param {string} params.tripId - The ID of the trip to which the itinerary item will be added.
+ * @param {array} params.fullItinerary - The full itinerary array.
+ * @param {number} params.currDay - The current day of the itinerary.
+ * @param {object} params.itineraryObj - The itinerary object to be added.
+ */
 export const addItineraryItem = async ({
   tripId,
   fullItinerary,
@@ -68,6 +81,13 @@ export const addItineraryItem = async ({
   await updateItineraryInDatabase(tripId, updatedItinerary);
 };
 
+/**
+ * Adds a flight to the specified trip based on the mode (depart/return).
+ * @param {object} params - The parameters object.
+ * @param {string} params.mode - The mode of the flight (depart/return).
+ * @param {string} params.tripId - The ID of the trip to which the flight will be added.
+ * @param {object} params.flightObj - The flight object to be added.
+ */
 export const addFlight = async ({ mode, tripId, flightObj }) => {
   const tripRef = doc(db, "trips", tripId);
 
@@ -84,6 +104,15 @@ export const addFlight = async ({ mode, tripId, flightObj }) => {
   }
 };
 
+/**
+ * Adds a transit method for a specific place in the itinerary.
+ * @param {object} params - The parameters object.
+ * @param {string} params.tripId - The ID of the trip to which the transit method will be added.
+ * @param {string} params.placeId - The ID of the itinerary item for which the transit method is being added.
+ * @param {array} params.fullItinerary - The full itinerary array.
+ * @param {number} params.currDay - The current day of the itinerary.
+ * @param {object} params.transportObj - The transport object representing the transit method.
+ */
 export const addTransitMethod = async ({
   tripId,
   placeId,
@@ -124,6 +153,15 @@ export const addTransitMethod = async ({
   await updateItineraryInDatabase(tripId, updatedItinerary);
 };
 
+/**
+ * Adds accommodation for a specified number of days to a specified day in the itinerary.
+ * @param {object} params - The parameters object.
+ * @param {string} params.tripId - The ID of the trip to which the accommodation will be added.
+ * @param {array} params.fullItinerary - The full itinerary array.
+ * @param {number} params.currDay - The current day of the itinerary.
+ * @param {number} params.stayDays - The number of days the accommodation will be booked for.
+ * @param {object} params.accommodationObj - The accommodation object to be added.
+ */
 export const addAccommodation = async ({
   tripId,
   fullItinerary,
@@ -195,6 +233,14 @@ export const addAccommodation = async ({
   await updateItineraryInDatabase(tripId, updatedItinerary);
 };
 
+/**
+ * Adds an expense to the itinerary for a specific day.
+ * @param {object} params - The parameters object.
+ * @param {string} params.tripId - The ID of the trip to which the expense will be added.
+ * @param {array} params.fullItinerary - The full itinerary array.
+ * @param {number} params.currDay - The current day of the itinerary.
+ * @param {object} params.expenseObj - The expense object to be added.
+ */
 export const addExpense = async ({
   tripId,
   fullItinerary,
