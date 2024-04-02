@@ -83,7 +83,7 @@ export default function TransportationItem({
     >
       <div className={`${styles.icon} ${styles[`bg-color-${category}`]}`}>
         {icon}
-        {fare !== 0 && <p>{currencyFormatter(fare)}</p>}
+        {fare !== 0 && <p>${currencyFormatter(fare)}</p>}
       </div>
 
       <div className={styles.info}>

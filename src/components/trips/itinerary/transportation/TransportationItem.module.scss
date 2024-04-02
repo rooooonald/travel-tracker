@@ -22,7 +22,8 @@
 
   &:hover {
     .remove-btn {
-      visibility: visible;
+      display: flex;
+      @include absolute-center;
     }
   }
 }
@@ -71,8 +72,9 @@
 
   .arrow {
     position: absolute;
-    left: 50px;
-    top: 10px;
+    left: 50%;
+    top: 50%;
+    transform: translate((-50%, -50%));
 
     font-size: 5rem;
     opacity: 0.15;

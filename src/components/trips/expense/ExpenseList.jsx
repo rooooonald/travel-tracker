@@ -1,6 +1,8 @@
 import ExpenseIcon from "../../../styles/icons/ExpenseIcons";
 import ExpenseItem from "./ExpenseItem";
 
+import currencyFormatter from "../../../lib/currency-formatter";
+
 import styles from "./ExpenseList.module.scss";
 
 export default function ExpenseList({ category, list, totalAmount }) {
@@ -40,7 +42,7 @@ export default function ExpenseList({ category, list, totalAmount }) {
       ))}
       <div className={styles.subtotal}>
         <p>Subtotal</p>
-        <p> {totalAmount.toFixed(2)}</p>
+        <p>{currencyFormatter(totalAmount)}</p>
       </div>
     </section>
   );

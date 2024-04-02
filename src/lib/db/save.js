@@ -6,6 +6,7 @@ import {
   arrayUnion,
 } from "firebase/firestore";
 import { db } from "./config";
+import { getUpdatedDayItinerary, updateItineraryInDatabase } from ".";
 
 import { v4 as uuidv4 } from "uuid";
 
@@ -57,16 +58,14 @@ export const addItineraryItem = async ({
   currDay,
   itineraryObj,
 }) => {
-  const updatedItinerary = [...fullItinerary];
-
-  const currentDayItineraryIndex = updatedItinerary.findIndex(
-    (itinerary) => itinerary.day === currDay
+  const { updatedItinerary, updatedDayItinerary } = getUpdatedDayItinerary(
+    fullItinerary,
+    currDay
   );
-  const updatedDayItinerary = updatedItinerary[currentDayItineraryIndex];
+
   updatedDayItinerary.visitPlaces.push({ placeId: uuidv4(), ...itineraryObj });
 
-  const tripRef = doc(db, "trips", tripId);
-  await updateDoc(tripRef, { itinerary: updatedItinerary });
+  await updateItineraryInDatabase(tripId, updatedItinerary);
 };
 
 export const addFlight = async ({ mode, tripId, flightObj }) => {
@@ -92,23 +91,21 @@ export const addTransitMethod = async ({
   currDay,
   transportObj,
 }) => {
-  const updatedItinerary = [...fullItinerary];
-
-  const currentDayItineraryIndex = updatedItinerary.findIndex(
-    (itinerary) => itinerary.day === currDay
+  const { updatedItinerary, updatedDayItinerary } = getUpdatedDayItinerary(
+    fullItinerary,
+    currDay
   );
-  const updatedVisitPlace = updatedItinerary[
-    currentDayItineraryIndex
-  ].visitPlaces.find((place) => place.placeId === placeId);
+
+  const updatedVisitPlace = updatedDayItinerary.visitPlaces.find(
+    (place) => place.placeId === placeId
+  );
 
   let transitId = uuidv4();
   updatedVisitPlace.transportTo = updatedVisitPlace.transportTo
     ? [...updatedVisitPlace.transportTo, { transitId, ...transportObj }]
     : [{ transitId, ...transportObj }];
 
-  const tripRef = doc(db, "trips", tripId);
-  await updateDoc(tripRef, { itinerary: updatedItinerary });
-
+  // Create Expense
   if (transportObj.fare > 0) {
     const expenseObj = {
       category: "transport",
@@ -118,52 +115,84 @@ export const addTransitMethod = async ({
       } to ${transportObj.to}`,
     };
 
-    await addExpense({
-      tripId,
-      fullItinerary,
-      currDay,
-      expenseObj,
-      specificId: transitId,
+    updatedDayItinerary.expenses.push({
+      expenseId: transitId,
+      ...expenseObj,
     });
   }
+
+  await updateItineraryInDatabase(tripId, updatedItinerary);
 };
 
 export const addAccommodation = async ({
   tripId,
   fullItinerary,
   currDay,
+  stayDays,
   accommodationObj,
 }) => {
   const updatedItinerary = [...fullItinerary];
 
-  const currentDayItineraryIndex = updatedItinerary.findIndex(
-    (itinerary) => itinerary.day === currDay
-  );
+  for (let day = currDay; day < currDay + stayDays; day++) {
+    const currentDayItineraryIndex = updatedItinerary.findIndex(
+      (itinerary) => itinerary.day === day
+    );
+    const updatedDayItinerary = updatedItinerary[currentDayItineraryIndex];
+    let accommodationId = uuidv4();
 
-  let accommodationId = uuidv4();
-  const updatedDayItinerary = updatedItinerary[currentDayItineraryIndex];
-  updatedDayItinerary.accommodation = {
-    accommodationId,
-    ...accommodationObj,
-  };
+    if (updatedDayItinerary.accommodation) {
+      // Clear Previous Accommodation Expenses
+      updatedDayItinerary.expenses = updatedDayItinerary.expenses.filter(
+        (expense) =>
+          expense.expenseId !==
+          updatedDayItinerary.accommodation.accommodationId
+      );
+    }
 
-  const tripRef = doc(db, "trips", tripId);
-  await updateDoc(tripRef, { itinerary: updatedItinerary });
-
-  if (accommodationObj.pricePerNight > 0) {
-    const expenseObj = {
-      category: "accommodation",
-      amount: accommodationObj.pricePerNight,
-      description: accommodationObj.hotelName,
+    updatedDayItinerary.accommodation = {
+      accommodationId,
+      ...accommodationObj,
     };
-    await addExpense({
-      tripId,
-      fullItinerary,
-      currDay,
-      expenseObj,
-      specificId: accommodationId,
-    });
+
+    if (accommodationObj.pricePerNight > 0) {
+      const expenseObj = {
+        category: "accommodation",
+        amount: accommodationObj.pricePerNight,
+        description: accommodationObj.hotelName,
+      };
+      updatedItinerary[currentDayItineraryIndex].expenses.push({
+        expenseId: accommodationId,
+        ...expenseObj,
+      });
+    }
   }
+
+  // const { updatedItinerary, updatedDayItinerary } = getUpdatedDayItinerary(
+  //   fullItinerary,
+  //   currDay
+  // );
+
+  // let accommodationId = uuidv4();
+
+  // updatedDayItinerary.accommodation = {
+  //   accommodationId,
+  //   ...accommodationObj,
+  // };
+
+  // Create Expense
+  // if (accommodationObj.pricePerNight > 0) {
+  //   const expenseObj = {
+  //     category: "accommodation",
+  //     amount: accommodationObj.pricePerNight,
+  //     description: accommodationObj.hotelName,
+  //   };
+  //   updatedDayItinerary.expenses.push({
+  //     expenseId: accommodationId,
+  //     ...expenseObj,
+  //   });
+  // }
+
+  await updateItineraryInDatabase(tripId, updatedItinerary);
 };
 
 export const addExpense = async ({
@@ -171,19 +200,16 @@ export const addExpense = async ({
   fullItinerary,
   currDay,
   expenseObj,
-  specificId,
 }) => {
-  const updatedItinerary = [...fullItinerary];
-  const currentDayItineraryIndex = updatedItinerary.findIndex(
-    (itinerary) => itinerary.day === currDay
+  const { updatedItinerary, updatedDayItinerary } = getUpdatedDayItinerary(
+    fullItinerary,
+    currDay
   );
 
-  const updatedDayItinerary = updatedItinerary[currentDayItineraryIndex];
   updatedDayItinerary.expenses.push({
-    expenseId: specificId || uuidv4(),
+    expenseId: uuidv4(),
     ...expenseObj,
   });
 
-  const tripRef = doc(db, "trips", tripId);
-  await updateDoc(tripRef, { itinerary: updatedItinerary });
+  await updateItineraryInDatabase(tripId, updatedItinerary);
 };

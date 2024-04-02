@@ -1,16 +1,17 @@
 import { useContext, useState } from "react";
+import { useOutletContext } from "react-router-dom";
 import { ItineraryContext } from "../store/itinerary-context";
 import { CurrencyContext } from "../store/currency-context.jsx";
 
 import ExpenseList from "../components/trips/expense/ExpenseList.jsx";
 import FormSelect from "../components/ui/FormSelect.jsx";
 import ButtonPrimary from "../components/ui/buttons/ButtonPrimary.jsx";
+import BlankBox from "../components/ui/BlankBox.jsx";
+import ButtonReturn from "../components/ui/buttons/ButtonReturn.jsx";
+import currencyFormatter from "../lib/currency-formatter.js";
 
 import styles from "./Expense.module.scss";
 import { MdCurrencyExchange } from "react-icons/md";
-import BlankBox from "../components/ui/BlankBox.jsx";
-import { useOutletContext } from "react-router-dom";
-import ButtonReturn from "../components/ui/buttons/ButtonReturn.jsx";
 
 const currencyOptions = [
   { value: "", text: "-- Currency --" },
@@ -80,7 +81,6 @@ export default function ExpensePage() {
   const miscellaneousList = categorizedExpenses["miscellaneous"];
 
   const sum = (acc, curr) => acc + Number((curr.amount * rate).toFixed(2));
-
   const foodTotalAmount = foodList?.reduce(sum, 0) || 0;
   const shoppingTotalAmount = shoppingList?.reduce(sum, 0) || 0;
   const activitiesTotalAmount = activitiesList?.reduce(sum, 0) || 0;
@@ -175,7 +175,7 @@ export default function ExpensePage() {
         <p>TOTAL</p>{" "}
         <p>
           {unit}
-          {totalExpense.toFixed(2)}
+          {currencyFormatter(totalExpense)}
         </p>
       </div>
 

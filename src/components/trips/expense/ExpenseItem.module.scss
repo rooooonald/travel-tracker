@@ -6,10 +6,12 @@
 
   display: flex;
   justify-content: space-between;
+  gap: 3rem;
 
   &:hover {
     .remove-btn {
-      visibility: visible;
+      display: flex;
+      @include absolute-center;
     }
   }
 }

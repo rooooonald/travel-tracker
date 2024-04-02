@@ -6,6 +6,7 @@ import { ItineraryContext } from "../../../store/itinerary-context";
 import { removeExpense } from "../../../lib/db/delete";
 
 import ButtonRemove from "../../ui/buttons/ButtonRemove";
+import currencyFormatter from "../../../lib/currency-formatter";
 
 import styles from "./ExpenseItem.module.scss";
 
@@ -37,7 +38,7 @@ export default function ExpenseItem({ expense }) {
         />
         <p>{description}</p>
       </div>
-      <p>{(amount * rate).toFixed(2)}</p>
+      <p>{currencyFormatter(amount * rate)}</p>
     </div>
   );
 }

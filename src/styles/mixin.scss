@@ -176,9 +176,10 @@
     width: #{$width};
     height: #{$height};
 
+    display: none;
+
     opacity: #{$initialOpacity};
     transition: opacity 0.5s;
-    visibility: hidden;
 
     &:hover {
       opacity: 1;

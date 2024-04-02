@@ -7,12 +7,12 @@ import { addAccommodation } from "../../../../lib/db/save";
 
 import ButtonPrimary from "../../../ui/buttons/ButtonPrimary";
 import FormInput from "../../../ui/FormInput";
-import { checkEmpty } from "../../../../lib/validations";
+import { checkEmpty, checkStayDays } from "../../../../lib/validations";
 
 import styles from "./AddAccommodation.module.scss";
 
 export default function AddAccommodation({ onClose }) {
-  const { trip, currDay } = useContext(ItineraryContext);
+  const { trip, currDay, finalDay } = useContext(ItineraryContext);
   const { mutate, isPending } = useMutation({
     mutationFn: addAccommodation,
     onSuccess: () => {
@@ -51,6 +51,16 @@ export default function AddAccommodation({ onClose }) {
   } = useInput(checkEmpty);
 
   const {
+    value: stayDays,
+    isValid: stayDaysIsValid,
+    isFocused: stayDaysIsFocused,
+    hasError: stayDaysHasError,
+    valueChangeHandler: stayDaysChangeHandler,
+    focusHandler: stayDaysFocusHandler,
+    blurHandler: stayDaysBlurHandler,
+  } = useInput((days) => checkStayDays(days, currDay, finalDay));
+
+  const {
     value: bookingRef,
     isFocused: bookingRefIsFocused,
     hasError: bookingRefHasError,
@@ -65,7 +75,7 @@ export default function AddAccommodation({ onClose }) {
     const accommodationObj = {
       hotelName: name,
       address,
-      pricePerNight: +price,
+      pricePerNight: +price / +stayDays,
       bookingRef,
     };
 
@@ -73,6 +83,7 @@ export default function AddAccommodation({ onClose }) {
       tripId: trip.tripId,
       fullItinerary: trip.itinerary,
       currDay,
+      stayDays: +stayDays,
       accommodationObj,
     });
 
@@ -106,22 +117,6 @@ export default function AddAccommodation({ onClose }) {
           isFocused={nameIsFocused}
           errorMsg={nameHasError && "Invalid Input"}
           className={styles["col-6"]}
-        />{" "}
-        <FormInput
-          id="accommodation-price"
-          label="PRICE PER NIGHT"
-          input={{
-            type: "text",
-            value: price,
-            onChange: priceChangeHandler,
-            onBlur: priceBlurHandler,
-            onFocus: priceFocusHandler,
-            placeholder: priceIsFocused ? "" : "PRICE PER NIGHT",
-          }}
-          isRequired={true}
-          isFocused={priceIsFocused}
-          errorMsg={priceHasError && "Invalid Input"}
-          className={styles["col-4"]}
         />
       </div>
       <p className={styles["form-question"]}>
@@ -145,6 +140,45 @@ export default function AddAccommodation({ onClose }) {
           className={styles["col-12"]}
         />
       </div>
+      <p className={styles["form-question"]}>
+        How many <span>days</span> are you staying there? What's the{" "}
+        <span>total price</span>?
+      </p>
+      <div className={styles.row}>
+        <FormInput
+          id="accommodation-stay-days"
+          label="DAYS"
+          input={{
+            type: "text",
+            value: stayDays,
+            onChange: stayDaysChangeHandler,
+            onBlur: stayDaysBlurHandler,
+            onFocus: stayDaysFocusHandler,
+            placeholder: stayDaysIsFocused ? "" : "DAYS",
+          }}
+          isRequired={true}
+          isFocused={stayDaysIsFocused}
+          errorMsg={stayDaysHasError && "Invalid Input"}
+          className={styles["col-2"]}
+        />
+        <FormInput
+          id="accommodation-price"
+          label="PRICE"
+          input={{
+            type: "text",
+            value: price,
+            onChange: priceChangeHandler,
+            onBlur: priceBlurHandler,
+            onFocus: priceFocusHandler,
+            placeholder: priceIsFocused ? "" : "TOTAL PRICE",
+          }}
+          isRequired={true}
+          isFocused={priceIsFocused}
+          errorMsg={priceHasError && "Invalid Input"}
+          className={styles["col-4"]}
+        />
+      </div>
+
       <p className={styles["form-question"]}>
         Any <span>booking reference</span>?
       </p>

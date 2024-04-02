@@ -44,3 +44,15 @@ export const checkAmount = (number) => {
 
   return true;
 };
+
+export const checkStayDays = (days, currDay, finalDay) => {
+  if (!checkEmpty(days)) {
+    return false;
+  }
+
+  if (currDay + +days > finalDay) {
+    return false;
+  }
+
+  return true;
+};

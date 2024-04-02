@@ -1,5 +1,6 @@
 import { doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "./config";
+import { getUpdatedDayItinerary, updateItineraryInDatabase } from ".";
 
 export const removeTrip = async (tripId) => {
   await deleteDoc(doc(db, "trips", tripId));
@@ -11,16 +12,14 @@ export const removeItineraryItem = async ({
   currDay,
   placeId,
 }) => {
-  const updatedItinerary = [...fullItinerary];
-
-  const currentDayItineraryIndex = updatedItinerary.findIndex(
-    (itinerary) => itinerary.day === currDay
+  const { updatedItinerary, updatedDayItinerary } = getUpdatedDayItinerary(
+    fullItinerary,
+    currDay
   );
 
-  const updatedDayItinerary = updatedItinerary[currentDayItineraryIndex];
-  const currentVisitPlaces = updatedItinerary[
-    currentDayItineraryIndex
-  ].visitPlaces.find((place) => place.placeId === placeId);
+  const currentVisitPlaces = updatedDayItinerary.visitPlaces.find(
+    (place) => place.placeId === placeId
+  );
 
   updatedDayItinerary.visitPlaces = updatedDayItinerary.visitPlaces.filter(
     (place) => place.placeId !== placeId
@@ -38,8 +37,7 @@ export const removeItineraryItem = async ({
     }
   }
 
-  const tripRef = doc(db, "trips", tripId);
-  await updateDoc(tripRef, { itinerary: updatedItinerary });
+  await updateItineraryInDatabase(tripId, updatedItinerary);
 };
 
 export const removeFlight = async ({
@@ -73,23 +71,19 @@ export const removeAccommodation = async ({
   currDay,
   accommodationId,
 }) => {
-  const updatedItinerary = [...fullItinerary];
-
-  const currentDayItineraryIndex = updatedItinerary.findIndex(
-    (itinerary) => itinerary.day === currDay
+  const { updatedItinerary, updatedDayItinerary } = getUpdatedDayItinerary(
+    fullItinerary,
+    currDay
   );
 
-  const updatedDayItinerary = updatedItinerary[currentDayItineraryIndex];
   updatedDayItinerary.accommodation = null;
 
-  const tripRef = doc(db, "trips", tripId);
-  await updateDoc(tripRef, { itinerary: updatedItinerary });
-  await removeExpense({
-    tripId,
-    fullItinerary,
-    currDay,
-    expenseId: accommodationId,
-  });
+  // Clear Expense
+  updatedDayItinerary.expenses = updatedDayItinerary.expenses.filter(
+    (expense) => expense.expenseId !== accommodationId
+  );
+
+  await updateItineraryInDatabase(tripId, updatedItinerary);
 };
 
 export const removeTransitMethod = async ({
@@ -99,27 +93,25 @@ export const removeTransitMethod = async ({
   fullItinerary,
   currDay,
 }) => {
-  const updatedItinerary = [...fullItinerary];
-
-  const currentDayItineraryIndex = updatedItinerary.findIndex(
-    (itinerary) => itinerary.day === currDay
+  const { updatedItinerary, updatedDayItinerary } = getUpdatedDayItinerary(
+    fullItinerary,
+    currDay
   );
-  const updatedVisitPlace = updatedItinerary[
-    currentDayItineraryIndex
-  ].visitPlaces.find((place) => place.placeId === placeId);
+
+  const updatedVisitPlace = updatedDayItinerary.visitPlaces.find(
+    (place) => place.placeId === placeId
+  );
 
   updatedVisitPlace.transportTo = updatedVisitPlace.transportTo.filter(
     (transit) => transit.transitId !== transitId
   );
 
-  const tripRef = doc(db, "trips", tripId);
-  await updateDoc(tripRef, { itinerary: updatedItinerary });
-  await removeExpense({
-    tripId,
-    fullItinerary,
-    currDay,
-    expenseId: transitId,
-  });
+  // Clear Expense
+  updatedDayItinerary.expenses = updatedDayItinerary.expenses.filter(
+    (expense) => expense.expenseId !== transitId
+  );
+
+  await updateItineraryInDatabase(tripId, updatedItinerary);
 };
 
 export const removeExpense = async ({
@@ -128,17 +120,14 @@ export const removeExpense = async ({
   currDay,
   expenseId,
 }) => {
-  const updatedItinerary = [...fullItinerary];
-
-  const currentDayItineraryIndex = updatedItinerary.findIndex(
-    (itinerary) => itinerary.day === currDay
+  const { updatedItinerary, updatedDayItinerary } = getUpdatedDayItinerary(
+    fullItinerary,
+    currDay
   );
 
-  const updatedDayItinerary = updatedItinerary[currentDayItineraryIndex];
   updatedDayItinerary.expenses = updatedDayItinerary.expenses.filter(
     (expense) => expense.expenseId !== expenseId
   );
 
-  const tripRef = doc(db, "trips", tripId);
-  await updateDoc(tripRef, { itinerary: updatedItinerary });
+  await updateItineraryInDatabase(tripId, updatedItinerary);
 };

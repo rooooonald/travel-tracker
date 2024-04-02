@@ -11,7 +11,8 @@
 
   &:hover {
     .remove-btn {
-      visibility: visible;
+      display: flex;
+      @include absolute-center;
     }
   }
 }

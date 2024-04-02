@@ -20,7 +20,6 @@ export const getAllTrips = async () => {
 };
 
 export const getTrip = async ({ signal, tripId }) => {
-  console.log("running");
   const docRef = doc(db, "trips", tripId);
   const docSnap = await getDoc(docRef);
   // console.log({ tripId, ...docSnap.data() });
