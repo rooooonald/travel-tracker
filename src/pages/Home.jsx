@@ -8,7 +8,9 @@ import CountryCardStack from "../components/home/CountryCardStack";
 import styles from "./Home.module.scss";
 
 export default function HomePage() {
-  const [activeCountry, setActiveCountry] = useState("JP");
+  const [activeCountry, setActiveCountry] = useState(
+    COUNTRIES[Math.floor(Math.random() * COUNTRIES.length)].id
+  );
   const { title } = COUNTRIES.find((country) => country.id === activeCountry);
 
   return (

@@ -20,7 +20,7 @@ export default function WorldMap({ onChangeCountry }) {
   return (
     <section className={styles.wrapper}>
       <div className={styles.title}>
-        <img src="/images/home/stamps.svg" /> <p>WHERE DID YOU TRAVEL?</p>
+        <img src="/images/home/stamps.svg" /> <p>YOUR TRAVEL MAP</p>
       </div>
       <svg
         xmlns="http://www.w3.org/2000/svg"

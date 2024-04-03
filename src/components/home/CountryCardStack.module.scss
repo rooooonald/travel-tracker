@@ -1,7 +1,7 @@
 @import "/src/styles/variables.scss";
 @import "/src/styles/mixin.scss";
 
-.country-display {
+.wrapper {
   width: 30%;
   height: 500px;
   position: relative;
@@ -52,7 +52,6 @@
           border-radius: 1rem;
 
           z-index: 201;
-          overflow: hidden;
         }
 
         img {

@@ -10,7 +10,7 @@ export default function Header() {
           to="/"
           className={({ isActive }) => (isActive ? styles.active : null)}
         >
-          Travel Map
+          Home
         </NavLink>
         <NavLink
           to="/trips"

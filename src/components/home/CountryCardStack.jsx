@@ -14,7 +14,7 @@ export default function CountryCardStack({ activeCountry, countryName }) {
 
   return (
     <LazyMotion features={domAnimation}>
-      <div className={styles["country-display"]}>
+      <div className={styles.wrapper}>
         <m.div
           key={activeCountry}
           initial={{ rotate: 30 }}
