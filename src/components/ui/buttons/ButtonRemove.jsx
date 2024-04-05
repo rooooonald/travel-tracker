@@ -7,7 +7,7 @@ export default function ButtonRemove({ className, onClick }) {
     <LazyMotion features={domAnimation}>
       <m.button
         animate={{ rotate: [-10, 20, 0], scale: [1, 1.05, 1] }}
-        transition={{ duration: 0.5, repeat: Infinity, type: "tween" }}
+        transition={{ duration: 0.5, type: "tween" }}
         type="button"
         onClick={onClick}
         className={`${styles["remove-btn"]} ${className}`}

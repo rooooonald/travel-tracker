@@ -22,5 +22,5 @@
   align-items: center;
   gap: 1rem;
 
-  @include remove-btn("20px", "20px", 0.3);
+  @include remove-btn("20px", "20px");
 }

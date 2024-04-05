@@ -34,7 +34,8 @@
   .modal-title {
     width: 50px;
     height: 100%;
-    position: relative;
+    position: sticky;
+    top: 0;
 
     @include gradient-bg;
 

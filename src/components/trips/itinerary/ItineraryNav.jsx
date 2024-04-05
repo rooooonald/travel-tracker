@@ -96,7 +96,7 @@ export default function ItineraryNav({ onAddItem, onAddExpense }) {
               className={styles["switch-button"]}
             >
               <HiSwitchHorizontal />
-              TO EXPENSE
+              <p>TO EXPENSE</p>
             </ButtonPrimary>
             <button onClick={onAddItem}>
               <MdOutlineAddLocation />
@@ -110,7 +110,7 @@ export default function ItineraryNav({ onAddItem, onAddExpense }) {
               className={styles["switch-button"]}
             >
               <HiSwitchHorizontal />
-              TO ITINERARY
+              <p>TO ITINERARY</p>
             </ButtonPrimary>
 
             <button onClick={onAddExpense}>

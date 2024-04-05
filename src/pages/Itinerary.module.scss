@@ -9,6 +9,11 @@
   display: flex;
   justify-content: center;
   gap: 1rem;
+
+  @include breakpoint-md {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .loading {
@@ -32,4 +37,15 @@
   background-color: $fourth-color;
 
   z-index: 1;
+
+  @include breakpoint-md {
+    width: 90%;
+    margin-bottom: 50px;
+
+    transform: none;
+  }
+
+  @include breakpoint-sm {
+    padding: 2rem 1rem;
+  }
 }

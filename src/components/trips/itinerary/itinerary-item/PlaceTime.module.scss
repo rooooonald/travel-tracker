@@ -20,6 +20,11 @@
   justify-content: flex-start;
   align-items: center;
 
+  @include breakpoint-sm {
+    width: 50px;
+    margin-right: 35px;
+  }
+
   .time-dot {
     width: 50px;
     height: 50px;
@@ -73,5 +78,9 @@
     position: absolute;
 
     opacity: 0.3;
+
+    @include breakpoint-sm {
+      width: 5vw;
+    }
   }
 }

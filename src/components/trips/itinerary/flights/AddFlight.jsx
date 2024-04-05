@@ -219,7 +219,7 @@ export default function AddFlight({ mode, onClose }) {
       </div>
 
       <div className={styles.row}>
-        <p style={{ textAlign: "right" }} className={styles["col-4"]}>
+        <p className={`${styles["col-4"]} ${styles["label-time"]}`}>
           Departure Time
         </p>
         <FormInput
@@ -276,7 +276,7 @@ export default function AddFlight({ mode, onClose }) {
         />
       </div>
       <div className={styles.row}>
-        <p style={{ textAlign: "right" }} className={styles["col-4"]}>
+        <p className={`${styles["col-4"]} ${styles["label-time"]}`}>
           Arrival Time
         </p>
         <FormInput

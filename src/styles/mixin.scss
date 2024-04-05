@@ -51,22 +51,37 @@
 
   .col-8 {
     width: 66.66%;
+    @include breakpoint-sm {
+      width: 100%;
+    }
   }
 
   .col-6 {
     width: 50%;
+    @include breakpoint-sm {
+      width: 100%;
+    }
   }
 
   .col-4 {
     width: 33.33%;
+    @include breakpoint-sm {
+      width: 100%;
+    }
   }
 
   .col-3 {
     width: 25%;
+    @include breakpoint-sm {
+      width: 100%;
+    }
   }
 
   .col-2 {
     width: 16.66%;
+    @include breakpoint-sm {
+      width: 100%;
+    }
   }
 }
 
@@ -103,8 +118,11 @@
   .row {
     width: 100%;
     display: flex;
-    // align-items: center;
     gap: 1rem;
+
+    @include breakpoint-sm {
+      flex-direction: column;
+    }
   }
 }
 
@@ -171,20 +189,39 @@
   }
 }
 
-@mixin remove-btn($width, $height, $initialOpacity) {
+@mixin remove-btn($width, $height) {
   .remove-btn {
     width: #{$width};
     height: #{$height};
 
     display: none;
 
-    opacity: #{$initialOpacity};
-    transition: opacity 0.5s;
+    background-color: rgba(206, 51, 117, 0.5);
+    backdrop-filter: blur(10px);
+    transition: background-color 0.5s;
 
     @content;
 
     &:hover {
-      opacity: 1;
+      background-color: rgba(206, 51, 117, 1);
     }
+  }
+}
+
+@mixin breakpoint($max-width) {
+  @media screen and (max-width: #{$max-width}px) {
+    @content;
+  }
+}
+
+@mixin breakpoint-sm {
+  @include breakpoint(576) {
+    @content;
+  }
+}
+
+@mixin breakpoint-md {
+  @include breakpoint(768) {
+    @content;
   }
 }

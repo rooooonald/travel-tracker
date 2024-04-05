@@ -15,4 +15,16 @@
   gap: 1rem;
 
   overflow: auto;
+
+  @include breakpoint-md {
+    width: 80vw;
+  }
+}
+
+.label-time {
+  text-align: right;
+
+  @include breakpoint-sm {
+    text-align: left;
+  }
 }

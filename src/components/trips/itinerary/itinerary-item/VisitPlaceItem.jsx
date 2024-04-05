@@ -76,7 +76,7 @@ export default function VisitPlaceItem({ place }) {
       />
       <div className={styles.content}>
         <div className={styles["place-info"]}>
-          <h2>{name}</h2>
+          <p className={styles["place-name"]}>{name}</p>
           <p>
             <AddressLink address={address} />
           </p>

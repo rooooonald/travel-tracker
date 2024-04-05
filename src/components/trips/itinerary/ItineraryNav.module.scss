@@ -6,12 +6,32 @@
   height: 550px;
   position: relative;
 
+  display: flex;
+  flex-direction: column;
+
   background-color: $fourth-color;
   color: $fourth-color;
   border-radius: 1rem;
   box-shadow: -5px 5px 5px rgba(0, 0, 0, 0.5);
 
   z-index: 1;
+
+  @include breakpoint-md {
+    width: 85%;
+    height: auto;
+
+    flex-direction: row;
+
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+    z-index: 2;
+  }
+
+  @include breakpoint-sm {
+    height: auto;
+
+    // flex-direction: column;
+    flex-wrap: wrap;
+  }
 }
 
 .img {
@@ -28,8 +48,22 @@
 
   overflow: hidden;
 
+  @include breakpoint-md {
+    width: 50%;
+
+    background-size: cover;
+    border-radius: 1rem 0 0 1rem;
+  }
+
+  @include breakpoint-sm {
+    width: 100%;
+    height: 200px;
+
+    border-radius: 1rem 1rem 50% 50% / 1rem 1rem 20% 20%;
+  }
+
   h1 {
-    margin-left: 1rem;
+    margin: 0 1rem;
 
     font-size: 2rem;
     word-break: break-word;
@@ -42,6 +76,10 @@
     text-transform: capitalize;
 
     @include ellipse-text;
+
+    @include breakpoint-sm {
+      display: none;
+    }
   }
 
   .trip-date {
@@ -64,6 +102,21 @@
   justify-content: space-between;
 
   color: $primary-color;
+
+  @include breakpoint-md {
+    width: 50%;
+    height: 300px;
+
+    background-size: cover;
+    border-radius: 1rem;
+  }
+
+  @include breakpoint-sm {
+    width: 100%;
+    height: auto;
+
+    // justify-content: flex-end;
+  }
 
   button {
     background-color: transparent;
@@ -99,11 +152,21 @@
 
       p {
         transform: translateY(5px);
+        @include breakpoint-md {
+          font-size: 0.8rem;
+        }
       }
 
       p:nth-child(2) {
         font-size: 3rem;
         font-weight: 700;
+      }
+
+      @include breakpoint-md {
+        width: 120px;
+        height: 120px;
+
+        border: 10px solid $primary-color;
       }
     }
   }
@@ -121,10 +184,51 @@
 
   transform: translate(1rem, 50%);
 
+  @include breakpoint-md {
+    width: auto;
+    left: auto;
+    right: 1rem;
+    transform: translate(0, 50%);
+  }
+
+  // @include breakpoint-sm {
+  //   width: 20%;
+
+  //   position: relative;
+  //   right: auto;
+
+  //   flex-direction: column;
+  //   justify-content: center;
+  //   align-items: flex-start;
+  //   gap: 1rem;
+
+  //   transform: none;
+  // }
+
   button {
     gap: 0.25rem;
 
     box-shadow: 0 5px 5px rgba(0, 0, 0, 0.5);
+
+    &.switch-button {
+      width: 150px;
+      padding: 1rem;
+
+      font-size: 0.8rem;
+
+      @include breakpoint-sm {
+        width: 50px;
+        padding: 0;
+        font-size: 1.75rem;
+        box-shadow: none;
+      }
+
+      p {
+        @include breakpoint-sm {
+          display: none;
+        }
+      }
+    }
 
     &:not(.switch-button) {
       width: 50px;
@@ -132,13 +236,7 @@
 
       background-color: $third-color;
       font-size: 1.75rem;
-      border-radius: 50%;
+      border-radius: 25px;
     }
-  }
-
-  .switch-button {
-    width: 150px;
-    padding: 1rem;
-    font-size: 0.8rem;
   }
 }
