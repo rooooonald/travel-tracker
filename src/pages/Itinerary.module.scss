@@ -26,6 +26,7 @@
 }
 
 .content {
+  min-width: 500px;
   width: 700px;
   padding: 2rem;
   margin-bottom: 200px;
@@ -40,6 +41,7 @@
 
   @include breakpoint-md {
     width: 90%;
+    min-width: auto;
     margin-bottom: 50px;
 
     transform: none;

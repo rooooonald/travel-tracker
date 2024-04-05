@@ -78,7 +78,7 @@ export default function CurrencyExchangeForm() {
         <div className={styles["currency-input-group"]}>
           <p>LOCAL CURRENCY</p>
           <FormSelect
-            id="transport-method"
+            id="currency-from"
             label="FROM"
             input={{ value: fromCurrency }}
             onChange={(e) => setFromCurrency(e.target.value)}
@@ -93,7 +93,7 @@ export default function CurrencyExchangeForm() {
         <div className={styles["currency-input-group"]}>
           <p>YOUR CURRENCY</p>
           <FormSelect
-            id="transport-method"
+            id="currency-to"
             label="TO"
             input={{ value: toCurrency }}
             onChange={(e) => setToCurrency(e.target.value)}

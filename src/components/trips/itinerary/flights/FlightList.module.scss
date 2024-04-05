@@ -65,15 +65,19 @@
   height: 50px;
   position: absolute;
   top: 0;
-  right: 0;
+  left: 0;
 
   border-radius: 50%;
   color: $fourth-color;
-  background-color: $secondary-color;
+  background-color: $third-color;
   font-size: 1.5rem;
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
 
-  transform: translate(50%, -50%);
+  transform: translate(-25%, -25%);
 
   overflow: visible;
+
+  @include breakpoint-sm {
+    transform: translate(-10%, -30%);
+  }
 }
