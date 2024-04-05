@@ -2,7 +2,6 @@
 @import "../../../../styles/variables.scss";
 @include column-width;
 @include form-question;
-@include row;
 
 .wrapper {
   width: 600px;
@@ -19,6 +18,11 @@
   @include breakpoint-md {
     width: 80vw;
   }
+}
+
+@include row;
+.row {
+  align-items: center;
 }
 
 .label-time {
