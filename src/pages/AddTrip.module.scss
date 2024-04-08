@@ -2,7 +2,7 @@
 @import "/src/styles/variables.scss";
 
 .wrapper {
-  width: 80%;
+  width: 90%;
   max-width: 800px;
   height: 80vh;
   margin: auto;
@@ -23,6 +23,10 @@
   object-fit: cover;
 
   border-radius: 1rem 0 0 1rem;
+
+  @include breakpoint-sm {
+    display: none;
+  }
 }
 
 .form {
@@ -37,6 +41,10 @@
   border-radius: 0 1rem 1rem 0;
 
   overflow: auto;
+
+  @include breakpoint-sm {
+    width: 100%;
+  }
 }
 
 .completed-screen {

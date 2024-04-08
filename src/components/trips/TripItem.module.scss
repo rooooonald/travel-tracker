@@ -43,7 +43,7 @@
         padding: 0.25rem 0.5rem;
         bottom: 0;
 
-        @include gradient-bg;
+        @include gradient-moving-bg;
         text-align: center;
       }
     }

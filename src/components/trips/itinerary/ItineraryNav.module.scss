@@ -89,7 +89,7 @@
 
     align-self: center;
 
-    @include gradient-bg;
+    @include gradient-moving-bg;
     text-align: center;
   }
 }

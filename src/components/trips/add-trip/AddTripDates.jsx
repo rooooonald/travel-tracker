@@ -50,7 +50,7 @@ export default function AddTripDates({
             }}
             isFocused={dateFromIsFocused}
             errorMsg={dateFromHasError && "Invalid Input"}
-            className={styles["col-8"]}
+            className={styles["col-12"]}
           />
         </div>
         <p className={styles["form-question"]}>
@@ -70,7 +70,7 @@ export default function AddTripDates({
             }}
             isFocused={dateToIsFocused}
             errorMsg={dateToHasError && "Invalid Input"}
-            className={styles["col-8"]}
+            className={styles["col-12"]}
           />
         </div>
       </div>

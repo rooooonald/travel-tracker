@@ -7,6 +7,11 @@
   );
 
   background-size: 400% 400%;
+  background-position: 100% 0;
+}
+
+@mixin gradient-moving-bg {
+  @include gradient-bg;
 
   animation: moving-gradient 15s ease-in-out infinite;
 
@@ -34,7 +39,7 @@
 }
 
 @mixin gradient-text {
-  @include gradient-bg;
+  @include gradient-moving-bg;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }

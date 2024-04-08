@@ -29,7 +29,7 @@
       top: 0;
       left: 0;
 
-      @include gradient-bg;
+      @include gradient-moving-bg;
       border-radius: 4px;
 
       transition: width 0.5s;

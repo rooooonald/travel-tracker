@@ -22,7 +22,7 @@
   justify-content: space-between;
   align-items: center;
 
-  @include gradient-bg;
+  @include gradient-moving-bg;
   color: $fourth-color;
   border-radius: 1rem;
 

@@ -21,6 +21,10 @@
     border-radius: 50%;
     background-color: $primary-color;
     color: $fourth-color;
+
+    @include breakpoint-sm {
+      align-self: flex-end;
+    }
   }
 
   .selected-cities {
