@@ -281,7 +281,7 @@ export default function AddFlight({ mode, onClose }) {
         </p>
         <FormInput
           id="flight-arrive-time"
-          label="DEPARTURE"
+          label="ARRIVAL"
           input={{
             type: "datetime-local",
             value: arrivalTime,

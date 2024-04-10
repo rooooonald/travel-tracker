@@ -156,7 +156,9 @@
   .scroll-right-btn,
   .scroll-left-btn {
     width: 30px;
+    min-width: 30px;
     height: 30px;
+    min-height: 30px;
     position: sticky;
     top: 50%;
 
