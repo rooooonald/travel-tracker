@@ -40,7 +40,7 @@ export default function AddTripCountries({
           >
             <FaMapMarkerAlt className={styles.marker} />
             <img
-              src={`/images/countries/${country.id}.webp`}
+              src={`/images/countries/icons/${country.id}.webp`}
               alt={country.title}
             />
             <p>{country.title}</p>

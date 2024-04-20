@@ -108,7 +108,7 @@ export default function AddTripCities({
             >
               <ImCross className={styles.delete} />
               <img
-                src={`/images/countries/${city.country}.webp`}
+                src={`/images/countries/icons/${city.country}.webp`}
                 alt={city.name}
               />
               <p>{city.name}</p>
